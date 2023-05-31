@@ -1,0 +1,75 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "assets/images/game_background_1/game_background_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/Collision.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "assets/images/game_background_1/layers/clouds_1.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/clouds_2.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/clouds_3.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/clouds_4.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/rocks_1.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/rocks_2.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/layers/sky.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        }
+    },
+    "last.exportedFilePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets",
+    "last.imagePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1/layers",
+    "map.height": 27,
+    "map.lastUsedExportFilter": "JavaScript map files (*.js)",
+    "map.orientation": null,
+    "map.tileHeight": 27,
+    "map.tileWidth": 36,
+    "map.width": 36,
+    "openFiles": [
+    ],
+    "project": "MBB.tiled-project",
+    "recentFiles": [
+        "assets/images/game_background_1/game_background_1.tsx",
+        "assets/images/game_background_1/layers/Collision.tsx",
+        "assets/images/game_background_1/layers/sky.tsx",
+        "assets/images/game_background_1/layers/rocks_2.tsx",
+        "assets/images/game_background_1/layers/rocks_1.tsx",
+        "assets/images/game_background_1/layers/clouds_4.tsx",
+        "assets/images/game_background_1/layers/clouds_3.tsx",
+        "assets/images/game_background_1/layers/clouds_2.tsx",
+        "assets/images/game_background_1/layers/clouds_1.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 27,
+        "width": 36
+    }
+}
