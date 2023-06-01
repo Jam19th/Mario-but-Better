@@ -6,40 +6,55 @@ const context = canvas.getContext('2d');
 canvas.width = 1270
 canvas.height = 610
 
+const scaledCanvas = {
+    width: canvas.width / 4,
+    height: canvas.height / 4,
+}
 
+//Parent array
 const platformCollisions2D = []
-for (let i=0; i< platformCollisions.length; i += 36) {
+//loops through array for all platforms
+for (let i = 0; i < platformCollisions.length; i += 36) {
+    //pushes in new sub-array
     platformCollisions2D.push(platformCollisions.slice(i, i + 36))
 }
 
-console.log(platformCollisions2D)
+//stores all or the collision arrays
+const platformCollisionBlocks = []
+//
+platformCollisions2D.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 2121) {
+            //pushes in a new collision block
+            platformCollisionBlocks.push(
+                new CollisionBlock({
+                    position: {
+                        x: x * 16,
+                        y: y * 16,
+                    },
+                })
+            )
+        }
+    })
+})
+
 
 //variable to determine strength of gravity
 const gravity = .5
 
-// Loads the image and draws the sprite onto canvas
-class Sprite {
-    constructor({position, imageSrc}) {
-        this.position = position
-        this.image = new Image()
-        this.image.src = imageSrc
-    }
-    // method to draw sprites onto canvas
-    draw () {
-        if (!this.image) return
-        context.drawImage(this.image, this.position.x, this.position.y)
-    }
-    // This will call the draw method and redraw the sprite on the canvas.
-    update () {
-        this.draw()
-    }
-}
+const player = new playerCharacter({
+    position: {
+    x: 100,
+    y: 0,
+    },
+    collisionBlocks: platformCollisionBlocks,
+})
 
 // loads background sprite
 const background = new Sprite({
     position: {
-        x: 0, 
-        y: 0
+        x: 0,
+        y: 0,
     },
     imageSrc: './assets/images/game_background_1/game_background_1.png'
 });
@@ -50,7 +65,7 @@ context.fillStyle = '#FFFFFF';
 //creates a rectangle and determines the size of it(starting x position, starting y position , width, height)
 context.fillRect(5, 5, canvas.width, canvas.height)
 
-// Creates a variable and assigns properties to the movement codes
+// Creates a codes variable and assigns properties to the movement codes
 const codes = {
     arrowRight: {
         pressed: false,
@@ -78,17 +93,29 @@ function animatePlayer() {
     context.save();
     context.translate(0, -background.image.height + canvas.height);
     //Puts the background images onto canvas
-    background.update()
+    background.update();
     context.restore();
+
+    context.save();
+    context.scale(4, 4)
+    // context.translate(0, -background.image.height + canvas.height);
+    //
+    platformCollisionBlocks.forEach((collisionBlock) => {
+        collisionBlock.update()
+    });
 
     //Calls the draw and update function to o draw the player character and update the position of the player character
     player.update()
-    player2.update()
 
     // Sets and updates players position on the x coordinates if key is pressed. Change the value to change the speed of the player character
     player.velocity.x = 0
     if (codes.arrowRight.pressed) player.velocity.x = 3
     else if (codes.arrowLeft.pressed) player.velocity.x = -3
+
+    context.restore();
+
+
+    
 }
 animatePlayer();
 
@@ -102,7 +129,7 @@ window.addEventListener('keydown', (event) => {
             break
         // change the value to change the height jump
         case 'Space':
-            player.velocity.y = -15;
+            player.velocity.y = -10;
             break
     }
 })
