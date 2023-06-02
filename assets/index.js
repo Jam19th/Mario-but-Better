@@ -48,6 +48,7 @@ const player = new playerCharacter({
     y: 0,
     },
     collisionBlocks: platformCollisionBlocks,
+    imageSrc: './assets/images/Knight Animations/__Idle.gif'
 })
 
 // loads background sprite
@@ -58,6 +59,15 @@ const background = new Sprite({
     },
     imageSrc: './assets/images/game_background_1/game_background_1.png'
 });
+
+// loads background sprite
+// const platform = new CollisionBlock({
+//     position: {
+//         x: 0,
+//         y: 0,
+//     },
+//     imageSrc: './assets/images/game_background_1/layers/platform1.png'
+// });
 
 // Fills shapes with a color
 context.fillStyle = '#FFFFFF';

@@ -1,28 +1,21 @@
 // Creates the player object and defines the properties of their positions
-class playerCharacter {
+class playerCharacter extends Sprite {
     //creates a new player object and defines the initial position through an argument provided but the const player variable
-    constructor({ position, collisionBlocks }) {
+    constructor({ position, collisionBlocks, imageSrc, scale = 0.5}) {
+        super({imageSrc, scale})
         this.position = position;
         //Makes the velocity increase overtime
         this.velocity = {
             x: 0,
             y: 1,
         }
-        //determines the width and height of the player
-        this.width = 100 / 4;
-        this.height = 100 / 4;
         //
         this.collisionBlocks = collisionBlocks
     }
-    //Create the player object
-    draw() {
-        context.fillStyle = 'red';
-
-        //(starting x position, starting y position , width, height)
-        context.fillRect(this.position.x, this.position.y, this.width, this.height)
-    }
     //Changes coordinates of the player object
     update() {
+        context.fillStyle = 'rgba(0, 255, 0, 0.1)'
+        context.fillRect(this.position.x, this.position.y, this.width, this.height)
         this.draw()
 
         // passes in the velocity parameter and strength of gravity 
