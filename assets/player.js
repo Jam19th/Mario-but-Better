@@ -5,7 +5,7 @@ class playerCharacter extends Sprite {
         position,
         collisionBlocks,
         imageSrc,
-        scale = 0.5,
+        scale = .5,
         animations,
     }) {
         super({ imageSrc, scale });
@@ -71,8 +71,8 @@ class playerCharacter extends Sprite {
         }
     }
 
-    checkForHorizontalCanvasCollision() {
-        if (this.hitbox.position.x + this.hitbox.width >= this.velocity.x >= 5759 ||
+    checkForHorizontalCanvasCollisions() {
+        if (this.hitbox.position.x + this.hitbox.width >= this.velocity.x && this.velocity.x >= 5759 ||
             this.hitbox.position.x + this.velocity.x <= 0
         ) {
             this.velocity.x = 0
@@ -82,7 +82,7 @@ class playerCharacter extends Sprite {
     //moves camera to the right
     shouldPanCameraToTheLeft({ canvas, camera }) {
         const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
-        const scaledDownCanvasWidth = canvas.width / 4
+        const scaledDownCanvasWidth = canvas.width
 
         if (cameraboxRightSide >= 5760) return
         if (cameraboxRightSide >= scaledDownCanvasWidth + Math.abs(camera.position.x)) {
@@ -110,9 +110,9 @@ class playerCharacter extends Sprite {
 
     //moves camera down
     shouldPanCameraUp({ canvas, camera }) {
-        if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1079) return
+        if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1080) return
 
-        const scaledDownCanvasHeight = canvas.height / 4
+        const scaledDownCanvasHeight = canvas.height
 
         if (this.camerabox.position.y + this.camerabox.height >=
             Math.abs(camera.position.y) + scaledDownCanvasHeight) {
@@ -127,23 +127,23 @@ class playerCharacter extends Sprite {
 
         this.updateCameraBox();
 
-        // context.fillStyle = 'rgba(0, 0, 255, .1)'
-        // context.fillRect(
-        //     this.camerabox.position.x,
-        //     this.camerabox.position.y,
-        //     this.camerabox.width,
-        //     this.camerabox.height)
+        context.fillStyle = 'rgba(0, 0, 255, .1)'
+        context.fillRect(
+            this.camerabox.position.x,
+            this.camerabox.position.y,
+            this.camerabox.width,
+            this.camerabox.height)
 
         // draws rectangles on the player sprite and hitbox
-        // context.fillStyle = 'rgba(0, 255, 0, 0.1)'
-        // context.fillRect(this.position.x, this.position.y, this.width, this.height)
+        context.fillStyle = 'rgba(0, 255, 0, 0.1)'
+        context.fillRect(this.position.x, this.position.y, this.width, this.height)
 
-        // context.fillStyle = 'rgba(255, 0, 0, 0.1)'
-        // context.fillRect(
-        //     this.hitbox.position.x,
-        //     this.hitbox.position.y,
-        //     this.hitbox.width,
-        //     this.hitbox.height)
+        context.fillStyle = 'rgba(255, 0, 0, 0.1)'
+        context.fillRect(
+            this.hitbox.position.x,
+            this.hitbox.position.y,
+            this.hitbox.width,
+            this.hitbox.height)
 
         this.draw();
 

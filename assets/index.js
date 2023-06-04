@@ -4,24 +4,25 @@ const context = canvas.getContext('2d');
 
 //determines canvas size 
 canvas.width = 1910
-canvas.height = 915
+canvas.height = 1080
 
-const scaledCanvas = {
-    width: canvas.width / 4,
-    height: canvas.height / 4,
-}
+// const scaledCanvas = {
+//     width: canvas.width / 4,
+//     height: canvas.height / 4,
+// }
 
 //Parent array
 const platformCollisions2D = []
 //loops through array for all platforms
-for (let i = 0; i < platformCollisions.length; i += 36) {
+for (let i = 0; i < platformCollisions.length; i += 159) {
     //pushes in new sub-array
-    platformCollisions2D.push(platformCollisions.slice(i, i + 36))
+    platformCollisions2D.push(platformCollisions.slice(i, i + 159))
 }
 
 //stores all or the collision arrays
 const platformCollisionBlocks = []
-//
+
+// iterates over each row and column of the platform collisions
 platformCollisions2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
         if (symbol === 2121) {
@@ -29,8 +30,8 @@ platformCollisions2D.forEach((row, y) => {
             platformCollisionBlocks.push(
                 new CollisionBlock({
                     position: {
-                        x: x * 16,
-                        y: y * 16,
+                        x: x * 64,
+                        y: y * 32,
                     },
                 })
             )
@@ -38,10 +39,10 @@ platformCollisions2D.forEach((row, y) => {
     })
 })
 
-
 //variable to determine strength of gravity
 const gravity = .2
 
+// creates a player character object
 const player = new playerCharacter({
     //starting position of the player
     position: {
@@ -107,8 +108,10 @@ const codes = {
     },
 }
 
+// Height of the background image
 const backgroundImageHeight = 1080
 
+// Camera object to track the position of the viewport
 const camera = {
     position: {
         x: 0,
@@ -129,19 +132,26 @@ function animatePlayer() {
 
     // save and restore prevents the code from refreshing forever 
     context.save();
+    // context.scale(3, 3)
     context.translate(camera.position.x, camera.position.y);
     //Puts the background images onto canvas
     background.update();
     context.restore();
 
     context.save();
-    context.scale(4, 4)
-    //
+    // scales the platform image (x, y)
+    // context.scale(2, 2)
+    context.translate(camera.position.x, camera.position.y);
+    // Updates each collision block
     platformCollisionBlocks.forEach((collisionBlock) => {
+        collisionBlock.width = 64;
+        collisionBlock.height = 32;
         collisionBlock.update()
     });
+    context.restore();
 
-    player.checkForHorizontalCanvasCollision()
+    // Checks for horizontal collision with the canvas boundaries
+    player.checkForHorizontalCanvasCollisions()
 
     //Calls the draw and update function to draw the player character and update the position of the player character
     player.update()
@@ -169,6 +179,7 @@ function animatePlayer() {
         player.switchSprite('Idle')
     }
 
+    // Handles the player jumping animation and camera movement
     if (player.velocity.y < 0) {
         player.shouldPanCameraDown({ camera })
         player.switchSprite('Jump')
@@ -178,11 +189,8 @@ function animatePlayer() {
         player.switchSprite('Fall')
     }
 
-    context.restore();
-
-
-
 }
+// Calls the animatePlayer function to start the animation loop
 animatePlayer();
 
 window.addEventListener('keydown', (event) => {
