@@ -37,9 +37,19 @@ class playerCharacter extends Sprite {
             //associates an image with an action
             this.animations[key].image = image;
         }
+
+        //constructs the camerabox object
+        this.camerabox = {
+            position: {
+                x: this.position.x,
+                y: this.position.y,
+            },
+            width: 200,
+            height: 80,
+        }
     }
 
-    //
+    //switches sprite gif
     switchSprite(key) {
         if (this.image === this.animations[key] || !this.loaded) return;
 
@@ -47,15 +57,87 @@ class playerCharacter extends Sprite {
         this.image = this.animations[key].image;
     }
 
+    //updates camerabox to stay on the player
+    updateCameraBox() {
+        this.camerabox = {
+            position: {
+                // positions camerabox on player
+                x: this.position.x - 130,
+                y: this.position.y - 40,
+            },
+            //size of the camera box
+            width: 325,
+            height: 150,
+        }
+    }
+
+    checkForHorizontalCanvasCollision() {
+        if (this.hitbox.position.x + this.hitbox.width >= this.velocity.x >= 5759 ||
+            this.hitbox.position.x + this.velocity.x <= 0
+        ) {
+            this.velocity.x = 0
+        }
+    }
+
+    //moves camera to the right
+    shouldPanCameraToTheLeft({ canvas, camera }) {
+        const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
+        const scaledDownCanvasWidth = canvas.width / 4
+
+        if (cameraboxRightSide >= 5760) return
+        if (cameraboxRightSide >= scaledDownCanvasWidth + Math.abs(camera.position.x)) {
+            camera.position.x -= this.velocity.x
+        }
+    }
+
+    //moves camera to the left
+    shouldPanCameraToTheRight({ camera }) {
+        if (this.camerabox.position.x <= 0) return
+
+        if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
+            camera.position.x -= this.velocity.x
+        }
+    }
+
+    //moves camera up
+    shouldPanCameraDown({ camera }) {
+        if (this.camerabox.position.y + this.velocity.y <= 0) return
+
+        if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
+            camera.position.y -= this.velocity.y
+        }
+    }
+
+    //moves camera down
+    shouldPanCameraUp({ canvas, camera }) {
+        if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1079) return
+
+        const scaledDownCanvasHeight = canvas.height / 4
+
+        if (this.camerabox.position.y + this.camerabox.height >=
+            Math.abs(camera.position.y) + scaledDownCanvasHeight) {
+            camera.position.y -= this.velocity.y
+        }
+    }
+
     //Changes coordinates of the player object
     update() {
         //
         this.updateHitBox();
 
-        // draws rects on the player and hitbox
+        this.updateCameraBox();
+
+        // context.fillStyle = 'rgba(0, 0, 255, .1)'
+        // context.fillRect(
+        //     this.camerabox.position.x,
+        //     this.camerabox.position.y,
+        //     this.camerabox.width,
+        //     this.camerabox.height)
+
+        // draws rectangles on the player sprite and hitbox
         // context.fillStyle = 'rgba(0, 255, 0, 0.1)'
         // context.fillRect(this.position.x, this.position.y, this.width, this.height)
-        // this.draw()
+
         // context.fillStyle = 'rgba(255, 0, 0, 0.1)'
         // context.fillRect(
         //     this.hitbox.position.x,

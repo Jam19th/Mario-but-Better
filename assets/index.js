@@ -3,7 +3,7 @@ const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
 //determines canvas size 
-canvas.width = 1270
+canvas.width = 1910
 canvas.height = 915
 
 const scaledCanvas = {
@@ -40,7 +40,7 @@ platformCollisions2D.forEach((row, y) => {
 
 
 //variable to determine strength of gravity
-const gravity = .5
+const gravity = .2
 
 const player = new playerCharacter({
     //starting position of the player
@@ -82,7 +82,7 @@ const background = new Sprite({
         x: 0,
         y: 0,
     },
-    imageSrc: './assets/images/game_background_1/game_background_1.png'
+    imageSrc: './assets/images/game_background_1/game_background_1_ext.png'
 });
 
 // Fills shapes with a color
@@ -107,6 +107,15 @@ const codes = {
     },
 }
 
+const backgroundImageHeight = 1080
+
+const camera = {
+    position: {
+        x: 0,
+        y: -backgroundImageHeight + canvas.height,
+    },
+}
+
 // Animates the playerCharacter to fall down the screen
 function animatePlayer() {
     //Update the position of a player character on the screen, before the next repaint of the webpage
@@ -120,7 +129,7 @@ function animatePlayer() {
 
     // save and restore prevents the code from refreshing forever 
     context.save();
-    context.translate(0, -background.image.height + canvas.height);
+    context.translate(camera.position.x, camera.position.y);
     //Puts the background images onto canvas
     background.update();
     context.restore();
@@ -132,6 +141,8 @@ function animatePlayer() {
         collisionBlock.update()
     });
 
+    player.checkForHorizontalCanvasCollision()
+
     //Calls the draw and update function to draw the player character and update the position of the player character
     player.update()
 
@@ -141,11 +152,15 @@ function animatePlayer() {
         player.switchSprite('Run')
         //player run speed
         player.velocity.x = 1
+        //moves the camera position to the right
+        player.shouldPanCameraToTheLeft({ canvas, camera })
     }
     else if (codes.arrowLeft.pressed) {
-        player.switchSprite('RunLeft')
+        player.switchSprite('Run')
         //player run speed
         player.velocity.x = -1
+        //moves the camera position to the left
+        player.shouldPanCameraToTheRight({ camera })
     }
     else if (codes.arrowDown.pressed) {
         player.switchSprite('Crouch')
@@ -154,8 +169,14 @@ function animatePlayer() {
         player.switchSprite('Idle')
     }
 
-    if (player.velocity.y < 0) player.switchSprite('Jump')
-        else if (player.velocity.y > 0) player.switchSprite('Fall')
+    if (player.velocity.y < 0) {
+        player.shouldPanCameraDown({ camera })
+        player.switchSprite('Jump')
+    }
+    else if (player.velocity.y > 0) {
+        player.shouldPanCameraUp({ canvas, camera })
+        player.switchSprite('Fall')
+    }
 
     context.restore();
 
@@ -177,7 +198,7 @@ window.addEventListener('keydown', (event) => {
             break
         // change the value to change the height jump
         case 'Space':
-            player.velocity.y = -10;
+            player.velocity.y = -7;
             break
     }
 })
