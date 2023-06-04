@@ -119,6 +119,10 @@ const camera = {
     },
 }
 
+// variables to track if the player can jump
+let canJump = true;
+let isJumping = false;
+
 // Animates the playerCharacter to fall down the screen
 function animatePlayer() {
     //Update the position of a player character on the screen, before the next repaint of the webpage
@@ -175,8 +179,10 @@ function animatePlayer() {
     else if (codes.arrowDown.pressed) {
         player.switchSprite('Crouch')
     }
-    else if (player.velocity.y === 0) {
-        player.switchSprite('Idle')
+    else if (player.velocity.y === 0 && !isJumping) {
+        player.switchSprite('Idle');
+        // Player is on the ground, allow jumping again
+        canJump = true;
     }
 
     // Handles the player jumping animation and camera movement
@@ -206,7 +212,12 @@ window.addEventListener('keydown', (event) => {
             break
         // change the value to change the height jump
         case 'Space':
+        if (canJump) {
             player.velocity.y = -7;
+            // Prevent multiple jumps
+            canJump = false;
+            isJumping = true;
+        }
             break
     }
 })
@@ -224,6 +235,11 @@ window.addEventListener('keyup', (event) => {
         case 'ArrowDown':
             codes.arrowDown.pressed = false;
             break
+        case 'Space':
+            if (player.velocity.y === 0) {
+                isJumping = false;
+            }
+            break;
     }
 })
 

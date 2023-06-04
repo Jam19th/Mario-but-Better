@@ -5,7 +5,7 @@ class playerCharacter extends Sprite {
         position,
         collisionBlocks,
         imageSrc,
-        scale = .5,
+        scale = 1,
         animations,
     }) {
         super({ imageSrc, scale });
@@ -134,11 +134,11 @@ class playerCharacter extends Sprite {
             this.camerabox.width,
             this.camerabox.height)
 
-        // draws rectangles on the player sprite and hitbox
+        // draws rectangles on the player sprite 
         context.fillStyle = 'rgba(0, 255, 0, 0.1)'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
-
-        context.fillStyle = 'rgba(255, 0, 0, 0.1)'
+        //draws rectangles on the player hit box
+        context.fillStyle = 'rgba(255, 0, 0, 0.5)'
         context.fillRect(
             this.hitbox.position.x,
             this.hitbox.position.y,
@@ -168,11 +168,13 @@ class playerCharacter extends Sprite {
     updateHitBox() {
         this.hitbox = {
             position: {
-                x: this.position.x + 21,
-                y: this.position.y + 21,
+                // position of the hitbox
+                x: this.position.x + 45,
+                y: this.position.y + 40,
             },
-            width: 12,
-            height: 19,
+            // size of the hitbox
+            width: 20,
+            height: 40,
         };
     }
 
