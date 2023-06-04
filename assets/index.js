@@ -58,6 +58,9 @@ const player = new playerCharacter({
         Run: {
             imageSrc: './assets/images/Knight Animations/__Run.gif',
         },
+        // RunLeft: {
+        //     imageSrc: './assets/images/Knight Animations/__Run-Left.xcf',
+        // },
         Jump: {
             imageSrc: './assets/images/Knight Animations/__Jump.gif',
         },
@@ -81,15 +84,6 @@ const background = new Sprite({
     },
     imageSrc: './assets/images/game_background_1/game_background_1.png'
 });
-
-// loads background sprite
-// const platform = new CollisionBlock({
-//     position: {
-//         x: 0,
-//         y: 0,
-//     },
-//     imageSrc: './assets/images/game_background_1/layers/platform1.png'
-// });
 
 // Fills shapes with a color
 context.fillStyle = '#FFFFFF';
@@ -149,7 +143,7 @@ function animatePlayer() {
         player.velocity.x = 1
     }
     else if (codes.arrowLeft.pressed) {
-        player.switchSprite('Run')
+        player.switchSprite('RunLeft')
         //player run speed
         player.velocity.x = -1
     }
@@ -203,3 +197,4 @@ window.addEventListener('keyup', (event) => {
             break
     }
 })
+
