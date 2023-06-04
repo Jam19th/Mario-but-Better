@@ -4,7 +4,7 @@ const context = canvas.getContext('2d');
 
 //determines canvas size 
 canvas.width = 1270
-canvas.height = 610
+canvas.height = 915
 
 const scaledCanvas = {
     width: canvas.width / 4,
@@ -43,12 +43,34 @@ platformCollisions2D.forEach((row, y) => {
 const gravity = .5
 
 const player = new playerCharacter({
+    //starting position of the player
     position: {
-    x: 100,
-    y: 0,
+        x: 100,
+        y: 10,
     },
     collisionBlocks: platformCollisionBlocks,
-    imageSrc: './assets/images/Knight Animations/__Idle.gif'
+    imageSrc: './assets/images/Knight Animations/__Idle.gif',
+    //Declaring which sprite we are using
+    animations: {
+        Idle: {
+            imageSrc: './assets/images/Knight Animations/__Idle.gif',
+        },
+        Run: {
+            imageSrc: './assets/images/Knight Animations/__Run.gif',
+        },
+        Jump: {
+            imageSrc: './assets/images/Knight Animations/__Jump.gif',
+        },
+        Fall: {
+            imageSrc: './assets/images/Knight Animations/__JumpFallInbetween.gif',
+        },
+        Death: {
+            imageSrc: './assets/images/Knight Animations/__Death.gif',
+        },
+        Crouch: {
+            imageSrc: './assets/images/Knight Animations/__Crouch.gif',
+        },
+    }
 })
 
 // loads background sprite
@@ -83,6 +105,9 @@ const codes = {
     arrowLeft: {
         pressed: false,
     },
+    arrowDown: {
+        pressed: false,
+    },
     space: {
         pressed: false,
     },
@@ -108,24 +133,40 @@ function animatePlayer() {
 
     context.save();
     context.scale(4, 4)
-    // context.translate(0, -background.image.height + canvas.height);
     //
     platformCollisionBlocks.forEach((collisionBlock) => {
         collisionBlock.update()
     });
 
-    //Calls the draw and update function to o draw the player character and update the position of the player character
+    //Calls the draw and update function to draw the player character and update the position of the player character
     player.update()
 
-    // Sets and updates players position on the x coordinates if key is pressed. Change the value to change the speed of the player character
-    player.velocity.x = 0
-    if (codes.arrowRight.pressed) player.velocity.x = 3
-    else if (codes.arrowLeft.pressed) player.velocity.x = -3
+    // Sets and updates players position on the x coordinates if key is pressed.
+    // Changes sprite animation
+    if (codes.arrowRight.pressed) {
+        player.switchSprite('Run')
+        //player run speed
+        player.velocity.x = 1
+    }
+    else if (codes.arrowLeft.pressed) {
+        player.switchSprite('Run')
+        //player run speed
+        player.velocity.x = -1
+    }
+    else if (codes.arrowDown.pressed) {
+        player.switchSprite('Crouch')
+    }
+    else if (player.velocity.y === 0) {
+        player.switchSprite('Idle')
+    }
+
+    if (player.velocity.y < 0) player.switchSprite('Jump')
+        else if (player.velocity.y > 0) player.switchSprite('Fall')
 
     context.restore();
 
 
-    
+
 }
 animatePlayer();
 
@@ -136,6 +177,9 @@ window.addEventListener('keydown', (event) => {
             break
         case 'ArrowLeft':
             codes.arrowLeft.pressed = true;
+            break
+        case 'ArrowDown':
+            codes.arrowDown.pressed = true;
             break
         // change the value to change the height jump
         case 'Space':
@@ -148,9 +192,14 @@ window.addEventListener('keyup', (event) => {
     switch (event.code) {
         case 'ArrowRight':
             codes.arrowRight.pressed = false;
+            player.velocity.x = 0;
             break
         case 'ArrowLeft':
             codes.arrowLeft.pressed = false;
+            player.velocity.x = 0;
+            break
+        case 'ArrowDown':
+            codes.arrowDown.pressed = false;
             break
     }
 })
