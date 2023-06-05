@@ -1,10 +1,10 @@
 // Loads the image and draws the sprite onto canvas
 class Sprite {
     constructor({ position, imageSrc, scale = 1}) {
-        this.position = position
-        this.scale = scale
-        this.loaded = false
-        this.image = new Image()
+        this.position = position;
+        this.scale = scale;
+        this.loaded = false;
+        this.image = new Image();
         this.image.onload = () => {
             this.width = this.image.width * this.scale
             this.height = this.image.height * this.scale
@@ -29,3 +29,5 @@ class Sprite {
         this.draw()
     }
 }
+
+

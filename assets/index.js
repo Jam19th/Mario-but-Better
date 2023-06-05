@@ -83,7 +83,8 @@ const background = new Sprite({
         x: 0,
         y: 0,
     },
-    imageSrc: './assets/images/game_background_1/game_background_1_ext.png'
+    imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
+    scale: 1,
 });
 
 // Fills shapes with a color
@@ -179,10 +180,17 @@ function animatePlayer() {
     else if (codes.arrowDown.pressed) {
         player.switchSprite('Crouch')
     }
-    else if (player.velocity.y === 0 && !isJumping) {
+    
+    // When the player is on the ground, allow jumping again
+    if (player.velocity.y === 0 && !isJumping) {
         player.switchSprite('Idle');
-        // Player is on the ground, allow jumping again
         canJump = true;
+    }
+    // Jump action
+    if (codes.space.pressed && canJump) {
+        player.velocity.y = -10;
+        canJump = false;
+        isJumping = true;
     }
 
     // Handles the player jumping animation and camera movement
@@ -193,6 +201,9 @@ function animatePlayer() {
     else if (player.velocity.y > 0) {
         player.shouldPanCameraUp({ canvas, camera })
         player.switchSprite('Fall')
+    }
+    else if (player.velocity.y === 0 && isJumping) {
+        player.switchSprite('Idle');
     }
 
 }
@@ -210,10 +221,10 @@ window.addEventListener('keydown', (event) => {
         case 'ArrowDown':
             codes.arrowDown.pressed = true;
             break
-        // change the value to change the height jump
         case 'Space':
         if (canJump) {
-            player.velocity.y = -7;
+            // change the value to change the height jump
+            player.velocity.y = -10;
             // Prevent multiple jumps
             canJump = false;
             isJumping = true;
