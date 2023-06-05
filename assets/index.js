@@ -11,6 +11,9 @@ canvas.height = 1080
 //     height: canvas.height / 4,
 // }
 
+//stores all or the collision arrays
+const platformCollisionBlocks = []
+
 //Parent array
 const platformCollisions2D = []
 //loops through array for all platforms
@@ -19,8 +22,6 @@ for (let i = 0; i < platformCollisions.length; i += 159) {
     platformCollisions2D.push(platformCollisions.slice(i, i + 159))
 }
 
-//stores all or the collision arrays
-const platformCollisionBlocks = []
 
 // iterates over each row and column of the platform collisions
 platformCollisions2D.forEach((row, y) => {
@@ -59,9 +60,6 @@ const player = new playerCharacter({
         Run: {
             imageSrc: './assets/images/Knight Animations/__Run.gif',
         },
-        // RunLeft: {
-        //     imageSrc: './assets/images/Knight Animations/__Run-Left.xcf',
-        // },
         Jump: {
             imageSrc: './assets/images/Knight Animations/__Jump.gif',
         },
@@ -87,11 +85,6 @@ const background = new Sprite({
     scale: 1,
 });
 
-// Fills shapes with a color
-context.fillStyle = '#FFFFFF';
-
-//creates a rectangle and determines the size of it(starting x position, starting y position , width, height)
-context.fillRect(5, 5, canvas.width, canvas.height)
 
 // Creates a codes variable and assigns properties to the movement codes
 const codes = {
@@ -123,6 +116,9 @@ const camera = {
 // variables to track if the player can jump
 let canJump = true;
 let isJumping = false;
+
+//variables to track the player's movement
+let isMoving = false;
 
 // Animates the playerCharacter to fall down the screen
 function animatePlayer() {
@@ -164,27 +160,50 @@ function animatePlayer() {
     // Sets and updates players position on the x coordinates if key is pressed.
     // Changes sprite animation
     if (codes.arrowRight.pressed) {
-        player.switchSprite('Run')
+        player.switchSprite('Run');
         //player run speed
-        player.velocity.x = 1
+        player.velocity.x = 3;
         //moves the camera position to the right
         player.shouldPanCameraToTheLeft({ canvas, camera })
+        isMoving = true;
     }
     else if (codes.arrowLeft.pressed) {
-        player.switchSprite('Run')
+        player.switchSprite('Run');
         //player run speed
-        player.velocity.x = -1
+        player.velocity.x = -3;
         //moves the camera position to the left
-        player.shouldPanCameraToTheRight({ camera })
+        player.shouldPanCameraToTheRight({ camera });
+        isMoving = true;
     }
-    else if (codes.arrowDown.pressed) {
-        player.switchSprite('Crouch')
+    else {
+        player.velocity.x = 0;
+        isMoving = false;
     }
-    
+    // Update previousMovingState when the player is moving
+    if (codes.arrowRight.pressed || codes.arrowLeft.pressed) {
+        // Player is moving
+        isMoving = true;
+    } 
+    else {
+        // Player is not moving
+        isMoving = false;
+    }
+    // Check if the player is moving 
+    if (isMoving) {
+        player.switchSprite('Run');
+    } else {
+        player.switchSprite('Idle');
+    }
+
+    // else if (codes.arrowDown.pressed) {
+    //     player.switchSprite('Crouch')
+    // }
+
     // When the player is on the ground, allow jumping again
-    if (player.velocity.y === 0 && !isJumping) {
+    if (player.velocity.y === 0) {
         player.switchSprite('Idle');
         canJump = true;
+        isJumping = false;
     }
     // Jump action
     if (codes.space.pressed && canJump) {
@@ -222,13 +241,13 @@ window.addEventListener('keydown', (event) => {
             codes.arrowDown.pressed = true;
             break
         case 'Space':
-        if (canJump) {
-            // change the value to change the height jump
-            player.velocity.y = -10;
-            // Prevent multiple jumps
-            canJump = false;
-            isJumping = true;
-        }
+            if (canJump) {
+                // change the value to change the height jump
+                player.velocity.y = -10;
+                // Prevent multiple jumps
+                canJump = false;
+                isJumping = true;
+            }
             break
     }
 })
