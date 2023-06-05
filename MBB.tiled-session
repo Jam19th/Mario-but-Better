@@ -9,11 +9,11 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "assets/images/game_background_1/Area-1.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 2268,
-                "y": 216
+                "x": 1183,
+                "y": 591
             }
         },
         "assets/images/game_background_1/Area-1.tmx#game_background_1": {

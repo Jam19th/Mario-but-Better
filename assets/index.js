@@ -6,14 +6,8 @@ const context = canvas.getContext('2d');
 canvas.width = 1910
 canvas.height = 1080
 
-// const scaledCanvas = {
-//     width: canvas.width / 4,
-//     height: canvas.height / 4,
-// }
-
 //stores all or the collision arrays
 const platformCollisionBlocks = []
-
 //Parent array
 const platformCollisions2D = []
 //loops through array for all platforms
@@ -21,8 +15,6 @@ for (let i = 0; i < platformCollisions.length; i += 159) {
     //pushes in new sub-array
     platformCollisions2D.push(platformCollisions.slice(i, i + 159))
 }
-
-
 // iterates over each row and column of the platform collisions
 platformCollisions2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
@@ -40,6 +32,33 @@ platformCollisions2D.forEach((row, y) => {
     })
 })
 
+// stores all the death collision blocks
+const deathBlocks = [];
+// parent array
+const deathBlocks2D = [];
+// loops through the array for all platforms
+for (let i = 0; i < deathCollisions.length; i += 159) {
+    // pushes in a new sub-array
+    deathBlocks2D.push(deathCollisions.slice(i, i + 159));
+}
+// iterates over each row and column of the death collisions
+deathBlocks2D.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 4242) {
+            // pushes in a new death collision block
+            deathBlocks.push(
+                new DeathBlock({
+                    position: {
+                        x: x * 64,
+                        y: y * 32,
+                    },
+                })
+            );
+        }
+    });
+});
+
+
 //variable to determine strength of gravity
 const gravity = .2
 
@@ -50,7 +69,11 @@ const player = new playerCharacter({
         x: 100,
         y: 10,
     },
+
+    //player constructor property : const of = [] makes it available in player.js
     collisionBlocks: platformCollisionBlocks,
+    deathCollisionBlocks: deathBlocks,
+
     imageSrc: './assets/images/Knight Animations/__Idle.gif',
     //Declaring which sprite we are using
     animations: {
@@ -84,6 +107,7 @@ const background = new Sprite({
     imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
     scale: 1,
 });
+
 
 
 // Creates a codes variable and assigns properties to the movement codes
@@ -149,6 +173,11 @@ function animatePlayer() {
         collisionBlock.height = 32;
         collisionBlock.update()
     });
+    deathBlocks.forEach((deathBlocks) => {
+        deathBlocks.width = 64;
+        deathBlocks.height = 32;
+        deathBlocks.update()
+    });
     context.restore();
 
     // Checks for horizontal collision with the canvas boundaries
@@ -183,7 +212,7 @@ function animatePlayer() {
     if (codes.arrowRight.pressed || codes.arrowLeft.pressed) {
         // Player is moving
         isMoving = true;
-    } 
+    }
     else {
         // Player is not moving
         isMoving = false;
@@ -195,9 +224,9 @@ function animatePlayer() {
         player.switchSprite('Idle');
     }
 
-    // else if (codes.arrowDown.pressed) {
-    //     player.switchSprite('Crouch')
-    // }
+    if (codes.arrowDown.pressed) {
+        player.switchSprite('Crouch')
+    }
 
     // When the player is on the ground, allow jumping again
     if (player.velocity.y === 0) {

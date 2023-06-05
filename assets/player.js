@@ -4,6 +4,7 @@ class playerCharacter extends Sprite {
     constructor({
         position,
         collisionBlocks,
+        deathCollisionBlocks,
         imageSrc,
         scale = 1,
         animations,
@@ -17,6 +18,7 @@ class playerCharacter extends Sprite {
         };
         //
         this.collisionBlocks = collisionBlocks;
+        this.deathCollisionBlocks = deathCollisionBlocks;
 
         this.hitbox = {
             position: {
@@ -51,7 +53,7 @@ class playerCharacter extends Sprite {
 
     //switches sprite gif
     switchSprite(key) {
-        if (this.image === this.animations[key] || !this.loaded) return;
+        if (this.image === this.animations[key].image || !this.loaded) return;
 
         this.currentFrame = 0
         this.image = this.animations[key].image;
@@ -178,7 +180,9 @@ class playerCharacter extends Sprite {
         };
     }
 
+    // checks for collision with platforms and death blocks
     checkForHorizontalCollisions() {
+        //collision with platforms
         for (let i = 0; i < this.collisionBlocks.length; i++) {
             const collisionBlock = this.collisionBlocks[i]
 
@@ -203,6 +207,26 @@ class playerCharacter extends Sprite {
 
                     this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01
                     break;
+                }
+            }
+        }
+
+        //collision for death blocks
+        for (let i = 0; i < this.deathCollisionBlocks.length; i++) {
+        const deathCollisionBlocks = this.deathCollisionBlocks[i]
+
+            if (deathCollision({
+                object1: this.hitbox,
+                object2: deathCollisionBlocks,
+            })) {
+                if (this.velocity.x > 0) {
+                    this.velocity.x = 0
+
+                    // offsets the image by the hit box rather then the image size
+                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+
+                    this.position.x = deathCollisionBlocks.position.x - offset - 0.01
+                    break
                 }
             }
         }
