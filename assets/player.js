@@ -75,13 +75,13 @@ class playerCharacter extends Sprite {
     updateCameraBox() {
         this.camerabox = {
             position: {
-                // positions camerabox on player
-                x: this.position.x - 130,
-                y: this.position.y - 40,
+                // positions camerabox on the hitbox
+                x: this.position.x - canvas.width / 2 + this.hitbox.width / 2,
+                y: this.position.y - canvas.height / 2 + this.hitbox.height / 2,
             },
             //size of the camera box
-            width: 325,
-            height: 150,
+            width: canvas.width,
+            height: canvas.height,
         }
     }
 
@@ -96,11 +96,12 @@ class playerCharacter extends Sprite {
     //moves camera to the right
     shouldPanCameraToTheLeft({ canvas, camera }) {
         const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
-        const scaledDownCanvasWidth = canvas.width
 
         if (cameraboxRightSide >= 5760) return
-        if (cameraboxRightSide >= scaledDownCanvasWidth + Math.abs(camera.position.x)) {
+        if (cameraboxRightSide >= canvas.width + Math.abs(camera.position.x)) {
             camera.position.x -= this.velocity.x
+            // Adjust the position of the camera box to stay centered on the hitbox
+            this.camerabox.position.x -= this.velocity.x;
         }
     }
 
@@ -109,7 +110,9 @@ class playerCharacter extends Sprite {
         if (this.camerabox.position.x <= 0) return
 
         if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
-            camera.position.x -= this.velocity.x
+            camera.position.x -= this.velocity.x;
+            // Adjust the position of the camera box to stay centered on the hitbox
+            this.camerabox.position.x -= this.velocity.x;
         }
     }
 
@@ -119,6 +122,8 @@ class playerCharacter extends Sprite {
 
         if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
             camera.position.y -= this.velocity.y
+            // Adjust the position of the camera box to stay centered on the hitbox
+            this.camerabox.position.y -= this.velocity.y;
         }
     }
 
@@ -126,11 +131,11 @@ class playerCharacter extends Sprite {
     shouldPanCameraUp({ canvas, camera }) {
         if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1080) return
 
-        const scaledDownCanvasHeight = canvas.height
-
         if (this.camerabox.position.y + this.camerabox.height >=
-            Math.abs(camera.position.y) + scaledDownCanvasHeight) {
+            Math.abs(camera.position.y) + canvas.height) {
             camera.position.y -= this.velocity.y
+            // Adjust the position of the camera box to stay centered on the hitbox
+            this.camerabox.position.y -= this.velocity.y;
         }
     }
 
