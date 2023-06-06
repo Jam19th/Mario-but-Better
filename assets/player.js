@@ -5,6 +5,7 @@ class playerCharacter extends Sprite {
         position,
         collisionBlocks,
         deathCollisionBlocks,
+        winCollisionBlocks,
         imageSrc,
         scale = 1,
         animations,
@@ -19,10 +20,11 @@ class playerCharacter extends Sprite {
 
         this.position = position;
         this.initialPosition = { ...position };
-        
+
         //
         this.collisionBlocks = collisionBlocks;
         this.deathCollisionBlocks = deathCollisionBlocks;
+        this.winCollisionBlocks = winCollisionBlocks;
 
 
         this.hitbox = {
@@ -65,7 +67,7 @@ class playerCharacter extends Sprite {
     switchSprite(key) {
         if (this.image === this.animations[key].image || !this.loaded) return;
 
-        this.currentFrame = 0
+        // this.currentFrame = 0
         this.image = this.animations[key].image;
     }
 
@@ -147,7 +149,7 @@ class playerCharacter extends Sprite {
             this.camerabox.height)
 
         // draws rectangles on the player sprite 
-        context.fillStyle = 'rgba(0, 255, 0, 0.1)'
+        context.fillStyle = 'rgba(0, 255, 0, 0.5)'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
         //draws rectangles on the player hit box
         context.fillStyle = 'rgba(255, 0, 0, 0.5)'
@@ -190,7 +192,7 @@ class playerCharacter extends Sprite {
         };
     }
 
-    // checks for collision with platforms and death blocks
+    // checks for collision with platforms and death blocks and win blocks
     checkForHorizontalCollisions() {
         //collision with platforms
         for (let i = 0; i < this.collisionBlocks.length; i++) {
@@ -230,18 +232,42 @@ class playerCharacter extends Sprite {
                 object2: deathCollisionBlocks,
             })) {
 
-                // Trigger death action
-            // Display a pop-up message
-            alert('Player touched a death block');
-
-            // Reload the page after clicking "OK" in the alert
-            location.reload();
-
-            // Reset player position (optional)
-            this.resetPosition();
+                this.deathAction()
                 break
             }
         }
+
+        //collision for win blocks
+        for (let i = 0; i < this.winCollisionBlocks.length; i++) {
+            const winCollisionBlocks = this.winCollisionBlocks[i]
+
+            if (collision({
+                object1: this.hitbox,
+                object2: winCollisionBlocks,
+            })) {
+
+                this.winAction()
+                break
+            }
+        }
+    }
+
+    deathAction() {
+        // Trigger death action
+        // Display a pop-up message
+        alert('Player touched a death block');
+
+        // Reload the page after clicking "OK" in the alert
+        location.reload();
+
+        // Reset player position (optional)
+        this.resetPosition();
+    }
+
+    winAction() {
+        // Trigger win action
+        // Display a pop-up message
+        alert('Player won the game!');
     }
 
     applyGravity() {

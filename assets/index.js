@@ -36,7 +36,7 @@ platformCollisions2D.forEach((row, y) => {
 const deathBlocks = [];
 // parent array
 const deathBlocks2D = [];
-// loops through the array for all platforms
+// loops through the array for deathBlocks
 for (let i = 0; i < deathCollisions.length; i += 159) {
     // pushes in a new sub-array
     deathBlocks2D.push(deathCollisions.slice(i, i + 159));
@@ -58,6 +58,31 @@ deathBlocks2D.forEach((row, y) => {
     });
 });
 
+// stores all the win collision blocks
+const winBlocks = [];
+// parent array
+const winBlocks2D = [];
+// loops through the array for all platforms
+for (let i = 0; i < winCollisions.length; i += 159) {
+    // pushes in a new sub-array
+    winBlocks2D.push(winCollisions.slice(i, i + 159));
+}
+// iterates over each row and column of the win collisions
+winBlocks2D.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 4243) {
+            // pushes in a new win collision block
+            winBlocks.push(
+                new WinBlock({
+                    position: {
+                        x: x * 64,
+                        y: y * 32,
+                    },
+                })
+            );
+        }
+    });
+});
 
 //variable to determine strength of gravity
 const gravity = .2
@@ -73,6 +98,7 @@ const player = new playerCharacter({
     //player constructor property : const of = [] makes it available in player.js
     collisionBlocks: platformCollisionBlocks,
     deathCollisionBlocks: deathBlocks,
+    winCollisionBlocks: winBlocks,
 
     imageSrc: './assets/images/Knight Animations/__Idle.gif',
     //Declaring which sprite we are using
@@ -163,6 +189,7 @@ function animatePlayer() {
     background.update();
     context.restore();
 
+    //animates collision blocks
     context.save();
     // scales the platform image (x, y)
     // context.scale(2, 2)
@@ -178,6 +205,12 @@ function animatePlayer() {
         deathBlocks.height = 32;
         deathBlocks.update()
     });
+    winBlocks.forEach((winBlocks) => {
+        winBlocks.width = 64;
+        winBlocks.height = 32;
+        winBlocks.update()
+    });
+    
     context.restore();
 
     // Checks for horizontal collision with the canvas boundaries
