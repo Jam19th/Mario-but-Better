@@ -10,10 +10,10 @@
     "fileStates": {
         "assets/images/game_background_1/Area-1.tmx": {
             "scale": 1,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 1183,
-                "y": 591
+                "x": 1865,
+                "y": 585
             }
         },
         "assets/images/game_background_1/Area-1.tmx#game_background_1": {
@@ -58,14 +58,14 @@
     },
     "last.exportedFilePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets",
     "last.externalTilesetPath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1/layers",
-    "last.imagePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1/layers",
+    "last.imagePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1",
     "map.height": 40,
     "map.lastUsedExportFilter": "JavaScript map files (*.js)",
     "map.lastUsedFormat": "tmx",
     "map.orientation": null,
     "map.tileHeight": 27,
-    "map.tileWidth": 36,
-    "map.width": 159,
+    "map.tileWidth": 64,
+    "map.width": 160,
     "openFiles": [
     ],
     "project": "MBB.tiled-project",
@@ -84,6 +84,6 @@
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 27,
-        "width": 36
+        "width": 64
     }
 }

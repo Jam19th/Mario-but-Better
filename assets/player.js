@@ -268,6 +268,12 @@ class playerCharacter extends Sprite {
         // Trigger win action
         // Display a pop-up message
         alert('Player won the game!');
+
+        // Reload the page after clicking "OK" in the alert
+        location.reload();
+
+        // Reset player position (optional)
+        this.resetPosition();
     }
 
     applyGravity() {

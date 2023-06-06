@@ -210,7 +210,7 @@ function animatePlayer() {
         winBlocks.height = 32;
         winBlocks.update()
     });
-    
+
     context.restore();
 
     // Checks for horizontal collision with the canvas boundaries
@@ -290,6 +290,13 @@ function animatePlayer() {
 }
 // Calls the animatePlayer function to start the animation loop
 animatePlayer();
+
+//adds audio file to the game loop
+window.onload = function () {
+    const audioElement = document.getElementById('gameAudio');
+    audioElement.volume = 0.2;
+    // audioElement.play();
+}
 
 window.addEventListener('keydown', (event) => {
     switch (event.code) {
