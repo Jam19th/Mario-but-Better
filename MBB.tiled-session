@@ -8,23 +8,37 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "assets/images/game_background_1/Area-1.1.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 2336,
+                "y": 872
+            }
+        },
         "assets/images/game_background_1/Area-1.tmx": {
             "scale": 1,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1865,
-                "y": 585
+                "x": 1152,
+                "y": 582
             }
         },
         "assets/images/game_background_1/Area-1.tmx#game_background_1": {
             "scaleInDock": 0.75
         },
+        "assets/images/game_background_1/Death.tsx": {
+            "scaleInEditor": 1
+        },
         "assets/images/game_background_1/game_background_1.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1.5
+            "scaleInEditor": 1
         },
         "assets/images/game_background_1/layers/Collision.tsx": {
             "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "assets/images/game_background_1/layers/End Goal.tsx": {
             "scaleInEditor": 1
         },
         "assets/images/game_background_1/layers/clouds_1.tsx": {
@@ -54,11 +68,14 @@
         "assets/images/game_background_1/layers/sky.tsx": {
             "scaleInDock": 0.75,
             "scaleInEditor": 1.5
+        },
+        "assets/images/game_background_1/platform1.tsx": {
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets",
     "last.externalTilesetPath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1/layers",
-    "last.imagePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1",
+    "last.imagePath": "C:/Users/jam19/OneDrive/Desktop/Extended-Course/MileStone-1/assets/images/game_background_1/layers",
     "map.height": 40,
     "map.lastUsedExportFilter": "JavaScript map files (*.js)",
     "map.lastUsedFormat": "tmx",
@@ -71,14 +88,17 @@
     "project": "MBB.tiled-project",
     "recentFiles": [
         "assets/images/game_background_1/game_background_1.tsx",
+        "assets/images/game_background_1/platform1.tsx",
+        "assets/images/game_background_1/layers/End Goal.tsx",
+        "assets/images/game_background_1/Death.tsx",
+        "assets/images/game_background_1/Area-1.tmx",
         "assets/images/game_background_1/layers/Collision.tsx",
         "assets/images/game_background_1/layers/sky.tsx",
         "assets/images/game_background_1/layers/rocks_2.tsx",
         "assets/images/game_background_1/layers/rocks_1.tsx",
         "assets/images/game_background_1/layers/clouds_4.tsx",
         "assets/images/game_background_1/layers/clouds_3.tsx",
-        "assets/images/game_background_1/layers/clouds_2.tsx",
-        "assets/images/game_background_1/layers/clouds_1.tsx"
+        "assets/images/game_background_1/layers/clouds_2.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

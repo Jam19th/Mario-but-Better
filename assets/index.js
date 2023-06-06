@@ -11,14 +11,14 @@ const platformCollisionBlocks = []
 //Parent array
 const platformCollisions2D = []
 //loops through array for all platforms
-for (let i = 0; i < platformCollisions.length; i += 159) {
+for (let i = 0; i < platformCollisions.length; i += 90) {
     //pushes in new sub-array
-    platformCollisions2D.push(platformCollisions.slice(i, i + 159))
+    platformCollisions2D.push(platformCollisions.slice(i, i + 90))
 }
 // iterates over each row and column of the platform collisions
 platformCollisions2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
-        if (symbol === 2121) {
+        if (symbol === 3602) {
             //pushes in a new collision block
             platformCollisionBlocks.push(
                 new CollisionBlock({
@@ -37,14 +37,14 @@ const deathBlocks = [];
 // parent array
 const deathBlocks2D = [];
 // loops through the array for deathBlocks
-for (let i = 0; i < deathCollisions.length; i += 159) {
+for (let i = 0; i < deathCollisions.length; i += 90) {
     // pushes in a new sub-array
-    deathBlocks2D.push(deathCollisions.slice(i, i + 159));
+    deathBlocks2D.push(deathCollisions.slice(i, i + 90));
 }
 // iterates over each row and column of the death collisions
 deathBlocks2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
-        if (symbol === 4242) {
+        if (symbol === 3601) {
             // pushes in a new death collision block
             deathBlocks.push(
                 new DeathBlock({
@@ -63,14 +63,14 @@ const winBlocks = [];
 // parent array
 const winBlocks2D = [];
 // loops through the array for all platforms
-for (let i = 0; i < winCollisions.length; i += 159) {
+for (let i = 0; i < winCollisions.length; i += 90) {
     // pushes in a new sub-array
-    winBlocks2D.push(winCollisions.slice(i, i + 159));
+    winBlocks2D.push(winCollisions.slice(i, i + 90));
 }
 // iterates over each row and column of the win collisions
 winBlocks2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
-        if (symbol === 4243) {
+        if (symbol === 3604) {
             // pushes in a new win collision block
             winBlocks.push(
                 new WinBlock({

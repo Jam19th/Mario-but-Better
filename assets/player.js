@@ -232,7 +232,7 @@ class playerCharacter extends Sprite {
                 object2: deathCollisionBlocks,
             })) {
 
-                this.deathAction()
+                // this.deathAction()
                 break
             }
         }
@@ -246,7 +246,7 @@ class playerCharacter extends Sprite {
                 object2: winCollisionBlocks,
             })) {
 
-                this.winAction()
+                // this.winAction()
                 break
             }
         }
