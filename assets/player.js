@@ -16,9 +16,14 @@ class playerCharacter extends Sprite {
             x: 0,
             y: 1,
         };
+
+        this.position = position;
+        this.initialPosition = { ...position };
+        
         //
         this.collisionBlocks = collisionBlocks;
         this.deathCollisionBlocks = deathCollisionBlocks;
+
 
         this.hitbox = {
             position: {
@@ -49,6 +54,11 @@ class playerCharacter extends Sprite {
             width: 200,
             height: 80,
         }
+    }
+
+    resetPosition() {
+        this.position.x = this.initialPosition.x;
+        this.position.y = this.initialPosition.y;
     }
 
     //switches sprite gif
@@ -213,34 +223,35 @@ class playerCharacter extends Sprite {
 
         //collision for death blocks
         for (let i = 0; i < this.deathCollisionBlocks.length; i++) {
-        const deathCollisionBlocks = this.deathCollisionBlocks[i]
+            const deathCollisionBlocks = this.deathCollisionBlocks[i]
 
-            if (deathCollision({
+            if (collision({
                 object1: this.hitbox,
                 object2: deathCollisionBlocks,
             })) {
-                if (this.velocity.x > 0) {
-                    this.velocity.x = 0
 
-                    // offsets the image by the hit box rather then the image size
-                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+                // Trigger death action
+            // Display a pop-up message
+            alert('Player touched a death block');
 
-                    this.position.x = deathCollisionBlocks.position.x - offset - 0.01
-                    break
-                }
+            // Reload the page after clicking "OK" in the alert
+            location.reload();
+
+            // Reset player position (optional)
+            this.resetPosition();
+                break
             }
         }
     }
 
-
     applyGravity() {
+        //Determines if the player position is hitting the bottom of canvas
         this.velocity.y += gravity;
         this.position.y += this.velocity.y;
-        //Determines if the player position is hitting the bottom of canvas
     }
 
     checkForVerticalCollisions() {
-        for (var i = 0; i < this.collisionBlocks.length; i++) {
+        for (let i = 0; i < this.collisionBlocks.length; i++) {
             const collisionBlock = this.collisionBlocks[i];
 
             if (collision({
@@ -248,6 +259,7 @@ class playerCharacter extends Sprite {
                 object2: collisionBlock,
             })) {
                 if (this.velocity.y > 0) {
+                    // Check if the player is moving downward (jumping)
                     this.velocity.y = 0;
 
                     // offsets the image by the hit box rather then the image size
