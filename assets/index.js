@@ -87,6 +87,16 @@ winBlocks2D.forEach((row, y) => {
 //variable to determine strength of gravity
 const gravity = .2
 
+// loads background sprite
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
+    scale: 1,
+});
+
 // creates a player character object
 const player = new playerCharacter({
     //starting position of the player
@@ -124,18 +134,6 @@ const player = new playerCharacter({
     }
 })
 
-// loads background sprite
-const background = new Sprite({
-    position: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
-    scale: 1,
-});
-
-
-
 // Creates a codes variable and assigns properties to the movement codes
 const codes = {
     arrowRight: {
@@ -153,6 +151,7 @@ const codes = {
 }
 
 // Height of the background image
+const backgroundImageWidth = 5760
 const backgroundImageHeight = 1080
 
 // Camera object to track the position of the viewport
@@ -176,41 +175,42 @@ function animatePlayer() {
     window.requestAnimationFrame(animatePlayer);
 
     // Fills shapes with a color
-    context.fillStyle = '#FFFFFF';
+    // context.fillStyle = '#FFFFFF';
 
     //creates a rectangle and determines the size of it(starting x position, starting y position , width, height)
-    context.fillRect(0, 0, canvas.width, canvas.height)
+    // context.fillRect(0, 0, canvas.width, canvas.height)
 
     // save and restore prevents the code from refreshing forever 
     context.save();
-    // context.scale(3, 3)
-    context.translate(camera.position.x, camera.position.y);
+    // scales the image (x, y)
+    // context.scale(1, 1.18)
+    context.scale(2, 2)
+    context.translate(camera.position.x +100 , camera.position.y + 100);
     //Puts the background images onto canvas
     background.update();
     context.restore();
 
     //animates collision blocks
     context.save();
-    // scales the platform image (x, y)
-    // context.scale(2, 2)
-    context.translate(camera.position.x, camera.position.y);
-    // Updates each collision block
+    // context.translate(0, 0);
+    // Updates each platform collision block
     platformCollisionBlocks.forEach((collisionBlock) => {
         collisionBlock.width = 64;
         collisionBlock.height = 32;
         collisionBlock.update()
     });
+    // Updates each death collision block
     deathBlocks.forEach((deathBlocks) => {
         deathBlocks.width = 64;
         deathBlocks.height = 32;
         deathBlocks.update()
     });
+    // Updates each win collision block
     winBlocks.forEach((winBlocks) => {
         winBlocks.width = 64;
         winBlocks.height = 32;
         winBlocks.update()
     });
-
     context.restore();
 
     // Checks for horizontal collision with the canvas boundaries
@@ -234,7 +234,7 @@ function animatePlayer() {
         //player run speed
         player.velocity.x = -3;
         //moves the camera position to the left
-        player.shouldPanCameraToTheRight({ camera });
+        player.shouldPanCameraToTheRight({ canvas, camera });
         isMoving = true;
     }
     else {
@@ -276,7 +276,7 @@ function animatePlayer() {
 
     // Handles the player jumping animation and camera movement
     if (player.velocity.y < 0) {
-        player.shouldPanCameraDown({ camera })
+        player.shouldPanCameraDown({ canvas, camera })
         player.switchSprite('Jump')
     }
     else if (player.velocity.y > 0) {

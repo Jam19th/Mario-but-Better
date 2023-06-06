@@ -21,11 +21,10 @@ class playerCharacter extends Sprite {
         this.position = position;
         this.initialPosition = { ...position };
 
-        //
+        //passes the collision blocks
         this.collisionBlocks = collisionBlocks;
         this.deathCollisionBlocks = deathCollisionBlocks;
         this.winCollisionBlocks = winCollisionBlocks;
-
 
         this.hitbox = {
             position: {
@@ -67,7 +66,7 @@ class playerCharacter extends Sprite {
     switchSprite(key) {
         if (this.image === this.animations[key].image || !this.loaded) return;
 
-        // this.currentFrame = 0
+        this.currentFrame = 0
         this.image = this.animations[key].image;
     }
 
@@ -75,9 +74,9 @@ class playerCharacter extends Sprite {
     updateCameraBox() {
         this.camerabox = {
             position: {
-                // positions camerabox on the hitbox
-                x: this.position.x - canvas.width / 2 + this.hitbox.width / 2,
-                y: this.position.y - canvas.height / 2 + this.hitbox.height / 2,
+                // positions camerabox on the player position
+                x: this.position.x - canvas.width / 2 + this.width / 2,
+                y: this.position.y - canvas.height / 2 + this.height / 2,
             },
             //size of the camera box
             width: canvas.width,
@@ -95,64 +94,116 @@ class playerCharacter extends Sprite {
 
     //moves camera to the right
     shouldPanCameraToTheLeft({ canvas, camera }) {
-        const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
-
-        if (cameraboxRightSide >= 5760) return
-        if (cameraboxRightSide >= canvas.width + Math.abs(camera.position.x)) {
-            camera.position.x -= this.velocity.x
-            // Adjust the position of the camera box to stay centered on the hitbox
-            this.camerabox.position.x -= this.velocity.x;
+        const playerCenterX = this.hitbox.position.x + this.hitbox.width / 2;
+        const cameraLeftBoundary = camera.position.x + canvas.width * 0.2;
+        const cameraRightBoundary = camera.position.x + canvas.width * 0.8;
+        
+        if (playerCenterX < cameraLeftBoundary) {
+            const distance = cameraLeftBoundary - playerCenterX;
+            camera.position.x -= distance;
+        } else if (playerCenterX > cameraRightBoundary) {
+            const distance = playerCenterX - cameraRightBoundary;
+            camera.position.x += distance;
         }
+        
+
+        // const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
+
+        // if (cameraboxRightSide >= 5760) return
+        // if (cameraboxRightSide >= canvas.width + Math.abs(camera.position.x)) {
+        //     camera.position.x -= this.velocity.x
+        //     // Adjust the position of the camera box to stay centered on the hitbox
+        //     this.camerabox.position.x -= this.velocity.x;
+        // }
     }
 
     //moves camera to the left
-    shouldPanCameraToTheRight({ camera }) {
-        if (this.camerabox.position.x <= 0) return
-
-        if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
-            camera.position.x -= this.velocity.x;
-            // Adjust the position of the camera box to stay centered on the hitbox
-            this.camerabox.position.x -= this.velocity.x;
+    shouldPanCameraToTheRight({ canvas, camera }) {
+        const playerCenterX = this.hitbox.position.x + this.hitbox.width / 2;
+        const cameraLeftBoundary = camera.position.x + canvas.width * 0.2;
+        const cameraRightBoundary = camera.position.x + canvas.width * 0.8;
+        
+        if (playerCenterX < cameraLeftBoundary) {
+            const distance = cameraLeftBoundary - playerCenterX;
+            camera.position.x -= distance;
+        } else if (playerCenterX > cameraRightBoundary) {
+            const distance = playerCenterX - cameraRightBoundary;
+            camera.position.x += distance;
         }
+        
+
+        // if (this.camerabox.position.x <= 0) return
+
+        // if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
+        //     camera.position.x -= this.velocity.x;
+        //     // Adjust the position of the camera box to stay centered on the hitbox
+        //     this.camerabox.position.x -= this.velocity.x;
+        // }
     }
 
     //moves camera up
-    shouldPanCameraDown({ camera }) {
-        if (this.camerabox.position.y + this.velocity.y <= 0) return
-
-        if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
-            camera.position.y -= this.velocity.y
-            // Adjust the position of the camera box to stay centered on the hitbox
-            this.camerabox.position.y -= this.velocity.y;
+    shouldPanCameraDown({ canvas, camera }) {
+        const playerCenterY = this.hitbox.position.y + this.hitbox.height / 2;
+        const cameraTopBoundary = camera.position.y + canvas.height * 0.2;
+        const cameraBottomBoundary = camera.position.y + canvas.height * 0.8;
+        
+        if (playerCenterY < cameraTopBoundary) {
+            const distance = cameraTopBoundary - playerCenterY;
+            camera.position.y -= distance;
+        } else if (playerCenterY > cameraBottomBoundary) {
+            const distance = playerCenterY - cameraBottomBoundary;
+            camera.position.y += distance;
         }
+        
+
+        // if (this.camerabox.position.y + this.velocity.y <= 0) return
+
+        // if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
+        //     camera.position.y -= this.velocity.y
+        //     // Adjust the position of the camera box to stay centered on the hitbox
+        //     this.camerabox.position.y -= this.velocity.y;
+        // }
     }
 
     //moves camera down
     shouldPanCameraUp({ canvas, camera }) {
-        if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1080) return
-
-        if (this.camerabox.position.y + this.camerabox.height >=
-            Math.abs(camera.position.y) + canvas.height) {
-            camera.position.y -= this.velocity.y
-            // Adjust the position of the camera box to stay centered on the hitbox
-            this.camerabox.position.y -= this.velocity.y;
+        const playerCenterY = this.hitbox.position.y + this.hitbox.height / 2;
+        const cameraTopBoundary = camera.position.y + canvas.height * 0.2;
+        const cameraBottomBoundary = camera.position.y + canvas.height * 0.8;
+        
+        if (playerCenterY < cameraTopBoundary) {
+            const distance = cameraTopBoundary - playerCenterY;
+            camera.position.y -= distance;
+        } else if (playerCenterY > cameraBottomBoundary) {
+            const distance = playerCenterY - cameraBottomBoundary;
+            camera.position.y += distance;
         }
+        
+
+        // if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1080) return
+
+        // if (this.camerabox.position.y + this.camerabox.height >=
+        //     Math.abs(camera.position.y) + canvas.height) {
+        //     camera.position.y -= this.velocity.y
+        //     // Adjust the position of the camera box to stay centered on the hitbox
+        //     this.camerabox.position.y -= this.velocity.y;
+        // }
     }
 
     //Changes coordinates of the player object
     update() {
-        //
+        //passes in the hitbox before the camerabox
         this.updateHitBox();
-
+        //passes ing the camerabox
         this.updateCameraBox();
 
+        //draws rectangles on the camera box
         context.fillStyle = 'rgba(0, 0, 255, .1)'
         context.fillRect(
             this.camerabox.position.x,
             this.camerabox.position.y,
             this.camerabox.width,
             this.camerabox.height)
-
         // draws rectangles on the player sprite 
         context.fillStyle = 'rgba(0, 255, 0, 0.5)'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
@@ -164,23 +215,26 @@ class playerCharacter extends Sprite {
             this.hitbox.width,
             this.hitbox.height)
 
+        //passes in draw from the sprite class
         this.draw();
-
         // passes in the velocity parameter and strength of gravity
         this.position.x += this.velocity.x;
-
+        //passes in the hitbox before horizontal collisions
         this.updateHitBox();
-
-        //
+        //passes in horizontal collisions
         this.checkForHorizontalCollisions();
-
-        //
+        //passes in gravity
         this.applyGravity();
-
+        //passes in the hitbox before Vertical collisions
         this.updateHitBox();
-
-        //
+        //passes in horizontal collisions
         this.checkForVerticalCollisions();
+
+        // passes in camera panning methods
+        this.shouldPanCameraToTheLeft({ canvas, camera });
+        this.shouldPanCameraToTheRight({ canvas, camera });
+        this.shouldPanCameraDown({ canvas, camera });
+        this.shouldPanCameraUp({ canvas, camera });
     }
 
     //update hitbox position and size
@@ -237,7 +291,7 @@ class playerCharacter extends Sprite {
                 object2: deathCollisionBlocks,
             })) {
 
-                // this.deathAction()
+                this.deathAction()
                 break
             }
         }
@@ -251,7 +305,7 @@ class playerCharacter extends Sprite {
                 object2: winCollisionBlocks,
             })) {
 
-                // this.winAction()
+                this.winAction()
                 break
             }
         }
