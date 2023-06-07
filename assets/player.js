@@ -45,7 +45,7 @@ class playerCharacter extends Sprite {
             //associates an image with an action
             this.animations[key].image = image;
         }
-        
+
         //constructs the camerabox object
         this.camerabox = {
             position: {
@@ -97,7 +97,7 @@ class playerCharacter extends Sprite {
         const playerCenterX = this.hitbox.position.x + this.hitbox.width / 2;
         const cameraLeftBoundary = camera.position.x + canvas.width * 0.2;
         const cameraRightBoundary = camera.position.x + canvas.width * 0.8;
-        
+
         if (playerCenterX < cameraLeftBoundary) {
             const distance = cameraLeftBoundary - playerCenterX;
             camera.position.x -= distance;
@@ -105,7 +105,7 @@ class playerCharacter extends Sprite {
             const distance = playerCenterX - cameraRightBoundary;
             camera.position.x += distance;
         }
-        
+
 
         // const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
 
@@ -122,7 +122,7 @@ class playerCharacter extends Sprite {
         const playerCenterX = this.hitbox.position.x + this.hitbox.width / 2;
         const cameraLeftBoundary = camera.position.x + canvas.width * 0.2;
         const cameraRightBoundary = camera.position.x + canvas.width * 0.8;
-        
+
         if (playerCenterX < cameraLeftBoundary) {
             const distance = cameraLeftBoundary - playerCenterX;
             camera.position.x -= distance;
@@ -130,7 +130,7 @@ class playerCharacter extends Sprite {
             const distance = playerCenterX - cameraRightBoundary;
             camera.position.x += distance;
         }
-        
+
 
         // if (this.camerabox.position.x <= 0) return
 
@@ -146,7 +146,7 @@ class playerCharacter extends Sprite {
     //     const playerCenterY = this.hitbox.position.y + this.hitbox.height / 2;
     //     const cameraTopBoundary = camera.position.y + canvas.height * 0.2;
     //     const cameraBottomBoundary = camera.position.y + canvas.height * 0.8;
-        
+
     //     if (playerCenterY < cameraTopBoundary) {
     //         const distance = cameraTopBoundary - playerCenterY;
     //         camera.position.y -= distance;
@@ -154,7 +154,7 @@ class playerCharacter extends Sprite {
     //         const distance = playerCenterY - cameraBottomBoundary;
     //         camera.position.y += distance;
     //     }
-        
+
 
     //     // if (this.camerabox.position.y + this.velocity.y <= 0) return
 
@@ -170,7 +170,7 @@ class playerCharacter extends Sprite {
     //     const playerCenterY = this.hitbox.position.y + this.hitbox.height / 2;
     //     const cameraTopBoundary = camera.position.y + canvas.height * 0.2;
     //     const cameraBottomBoundary = camera.position.y + canvas.height * 0.8;
-        
+
     //     if (playerCenterY < cameraTopBoundary) {
     //         const distance = cameraTopBoundary - playerCenterY;
     //         camera.position.y -= distance;
@@ -178,7 +178,7 @@ class playerCharacter extends Sprite {
     //         const distance = playerCenterY - cameraBottomBoundary;
     //         camera.position.y += distance;
     //     }
-        
+
 
     //     // if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 1080) return
 
@@ -312,24 +312,61 @@ class playerCharacter extends Sprite {
     }
 
     deathAction() {
-        // Trigger death action
-        // Display a pop-up message
-        alert('Player touched a death block');
+        // Get the modal element
+        const modal = document.getElementById("deathModal");
 
-        // Reload the page after clicking "OK" in the alert
-        location.reload();
+        // Get the close button inside the modal
+        const closeButton = modal.querySelector(".close");
+
+        const audioElement = document.getElementById('deathAudio');
+        audioElement.volume = 0.2;
+        audioElement.play();
+
+
+        // Display the modal
+        modal.style.display = "block";
+
+        // Reload the page after clicking the close button
+        closeButton.addEventListener("click", () => {
+            location.reload();
+        });
+
+        // Reload the page after clicking outside the modal
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                location.reload();
+            }
+        });
 
         // Reset player position (optional)
         this.resetPosition();
     }
 
     winAction() {
-        // Trigger win action
-        // Display a pop-up message
-        alert('Player won the game!');
+        // Get the modal element
+        const modal = document.getElementById("winModal");
 
-        // Reload the page after clicking "OK" in the alert
-        location.reload();
+        // Get the close button inside the modal
+        const closeButton = modal.querySelector(".close");
+
+        const audioElement = document.getElementById('winAudio');
+        audioElement.volume = 0.2;
+        audioElement.play();
+
+        // Display the modal
+        modal.style.display = "block";
+
+        // Reload the page after clicking the close button
+        closeButton.addEventListener("click", () => {
+            location.reload();
+        });
+
+        // Reload the page after clicking outside the modal
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                location.reload();
+            }
+        });
 
         // Reset player position (optional)
         this.resetPosition();

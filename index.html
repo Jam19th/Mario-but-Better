@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mario but better!</title>
-    <link rel="stylesheet" href="./assets/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+    <link rel="stylesheet" href="./assets/styles.css" />
     <script src="./assets/utility.js" defer></script>
     <script src="./assets/collisionblock.js" defer></script>
     <script src="./assets/sprite.js" defer></script>
@@ -14,11 +14,27 @@
     <script src="./assets/collisions.js" defer></script>
     <script src="./assets/index.js" defer></script>
 </head>
+
 <body>
+    <canvas></canvas>
+    <audio id="mainGameAudio" src="./assets/music/Lee_Duffy___Nirreman___Dr..mp3"></audio>
+    <audio id="winAudio" src="./assets/music/Ending.mp3"></audio>
+    <audio id="deathAudio" src="./assets/music/Game Over.mp3"></audio>
 
-<canvas></canvas>
-<audio id="gameAudio" src="./assets/Lee_Duffy___Nirreman___Dr..mp3"></audio>
+    <div id="deathModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="./assets/images/game_background_1/Game_Over.jpg" alt="Mega Man 2 ending screen" />
+        </div>
+    </div>
 
-    
+    <div id="winModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="./assets/images/game_background_1/Ending_Scene.jpg" alt="Mega Man 2 ending screen" />
+        </div>
+    </div>
+
 </body>
+
 </html>

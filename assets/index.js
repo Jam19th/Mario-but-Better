@@ -26,6 +26,8 @@ resizeCanvas();
 //an event listener to the window's resize event
 window.addEventListener('resize', resizeCanvas);
 
+
+
 // Height and width of the canvas
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
@@ -98,7 +100,7 @@ for (let i = 0; i < winCollisions.length; i += 90) {
 // iterates over each row and column of the win collisions
 winBlocks2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
-        if (symbol === 3604) {
+        if (symbol === 3603) {
             // pushes in a new win collision block
             winBlocks.push(
                 new WinBlock({
@@ -177,7 +179,7 @@ const codes = {
 
 // Height of the background image
 const backgroundImageWidth = 5760;
-const backgroundImageHeight = 100;
+const backgroundImageHeight = 150;
 
 // Camera object to track the position of the viewport
 const camera = {
@@ -311,7 +313,7 @@ animatePlayer();
 
 // adds audio file to the game loop
 window.onload = function () {
-    const audioElement = document.getElementById('gameAudio');
+    const audioElement = document.getElementById('mainGameAudio');
     audioElement.volume = 0.2;
     // audioElement.play();
 };
