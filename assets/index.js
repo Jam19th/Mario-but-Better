@@ -2,6 +2,30 @@
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
+function drawBackground(image) {
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+}
+// Function to resize the canvas
+function resizeCanvas() {
+    // Set the canvas dimensions to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Load the background image
+    const backgroundImage = new Image();
+    backgroundImage.src = './assets/images/game_background_1/game_background_1_ext.png';
+
+    // Once the image is loaded, draw it as the background
+    backgroundImage.onload = () => {
+        drawBackground(backgroundImage);
+    };
+}
+
+resizeCanvas();
+
+//an event listener to the window's resize event
+window.addEventListener('resize', resizeCanvas);
+
 // Height and width of the canvas
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
@@ -105,7 +129,7 @@ const background = new Sprite({
 const player = new playerCharacter({
     // starting position of the player
     position: {
-        x: 100,
+        x: 40,
         y: 10,
     },
     collisionBlocks: platformCollisionBlocks,
@@ -153,13 +177,13 @@ const codes = {
 
 // Height of the background image
 const backgroundImageWidth = 5760;
-const backgroundImageHeight = 1080;
+const backgroundImageHeight = 100;
 
 // Camera object to track the position of the viewport
 const camera = {
     position: {
         x: 0,
-        y: -backgroundImageHeight + canvas.height,
+        y: backgroundImageHeight,
     },
 };
 
