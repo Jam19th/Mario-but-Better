@@ -15,31 +15,18 @@ window.addEventListener("click", () => {
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
-function drawBackground(image) {
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-}
-// Function to resize the canvas
+
 function resizeCanvas() {
     // Set the canvas dimensions to match the window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Load the background image
-    const backgroundImage = new Image();
-    backgroundImage.src = './assets/images/game_background_1/game_background_1_ext.png';
-
-    // Once the image is loaded, draw it as the background
-    backgroundImage.onload = () => {
-        drawBackground(backgroundImage);
-    };
 }
 
 resizeCanvas();
 
 //an event listener to the window's resize event
 window.addEventListener('resize', resizeCanvas);
-
-
 
 // Height and width of the canvas
 const canvasWidth = canvas.width;
@@ -133,11 +120,11 @@ const gravity = 0.2;
 // loads background sprite
 const background = new Sprite({
     position: {
-        x: 0,
-        y: 0,
+        x: -2500,
+        y: -100,
     },
     imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
-    scale: 1,
+    scale: 1.5,
 });
 
 // creates a player character object
@@ -191,14 +178,14 @@ const codes = {
 };
 
 // Height of the background image
-const backgroundImageWidth = 5760;
-const backgroundImageHeight = 150;
+// const backgroundImageWidth = 5760;
+// const backgroundImageHeight = 1080;
 
 // Camera object to track the position of the viewport
 const camera = {
     position: {
         x: 0,
-        y: backgroundImageHeight,
+        y: 0,
     },
 };
 
@@ -313,10 +300,8 @@ function animatePlayer() {
     // Handles the player jumping animation and camera movement
     if (player.velocity.y < 0) {
         player.switchSprite('Jump');
-        // player.shouldPanCameraDown({ canvas, camera });
     } else if (player.velocity.y > 0) {
         player.switchSprite('Fall');
-        // player.shouldPanCameraUp({ canvas, camera });
     } else if (player.velocity.y === 0 && isJumping) {
         player.switchSprite('Idle');
     }
@@ -333,7 +318,7 @@ window.onload = function () {
 
 window.addEventListener('keydown', (event) => {
     // Prevent default behavior of the space key
-    if (event.code === 'Space') {
+    if (event.code === 'Space', 'ArrowRight', 'ArrowLeft', 'ArrowDown') {
         event.preventDefault();
     }
     switch (event.code) {
@@ -360,7 +345,7 @@ window.addEventListener('keydown', (event) => {
 
 window.addEventListener('keyup', (event) => {
     // Prevent default behavior of the space key
-    if (event.code === 'Space') {
+    if (event.code === 'Space', 'ArrowRight', 'ArrowLeft', 'ArrowDown') {
         event.preventDefault();
     }
     switch (event.code) {
