@@ -60,6 +60,9 @@ class playerCharacter extends Sprite {
     resetPosition() {
         this.position.x = this.initialPosition.x;
         this.position.y = this.initialPosition.y;
+
+        // Show title screen
+        showTitleScreen();
     }
 
     //switches sprite gif

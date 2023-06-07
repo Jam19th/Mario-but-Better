@@ -16,18 +16,21 @@
 </head>
 
 <body>
+    <div id="titleModal" class="modal">
+        <div class="modal-content">
+            <h1>Mario but Better!</h1>
+            <p>Press enter to start</p>
+        </div>
+    </div>
     <canvas></canvas>
-    <audio id="mainGameAudio" src="./assets/music/Lee_Duffy___Nirreman___Dr..mp3"></audio>
-    <audio id="winAudio" src="./assets/music/Ending.mp3"></audio>
-    <audio id="deathAudio" src="./assets/music/Game Over.mp3"></audio>
-
+    
     <div id="deathModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <img src="./assets/images/game_background_1/Game_Over.jpg" alt="Mega Man 2 ending screen" />
         </div>
     </div>
-
+    
     <div id="winModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -35,6 +38,9 @@
         </div>
     </div>
 
+    <audio id="mainGameAudio" src="./assets/music/Lee_Duffy___Nirreman___Dr..mp3"></audio>
+    <audio id="winAudio" src="./assets/music/Ending.mp3"></audio>
+    <audio id="deathAudio" src="./assets/music/Game Over.mp3"></audio>
 </body>
 
 </html>

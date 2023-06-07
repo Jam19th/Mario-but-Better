@@ -1,3 +1,16 @@
+function showTitleScreen() {
+    const modal = document.getElementById("titleModal");
+    modal.style.display = "block";
+}
+
+showTitleScreen();
+
+// Hide title screen and start the game when clicked
+window.addEventListener("click", () => {
+    const modal = document.getElementById("titleModal");
+    modal.style.display = "none";
+});
+
 // creates a new canvas and determines the API version
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
@@ -319,6 +332,10 @@ window.onload = function () {
 };
 
 window.addEventListener('keydown', (event) => {
+    // Prevent default behavior of the space key
+    if (event.code === 'Space') {
+        event.preventDefault();
+    }
     switch (event.code) {
         case 'ArrowRight':
             codes.arrowRight.pressed = true;
@@ -342,6 +359,10 @@ window.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('keyup', (event) => {
+    // Prevent default behavior of the space key
+    if (event.code === 'Space') {
+        event.preventDefault();
+    }
     switch (event.code) {
         case 'ArrowRight':
             codes.arrowRight.pressed = false;
