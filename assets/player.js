@@ -108,6 +108,11 @@ class playerCharacter extends Sprite {
             const distance = playerCenterX - cameraRightBoundary;
             camera.position.x += distance;
         }
+
+        // Check if the camera box reaches the left side of the canvas
+        if (camera.position.x < 0) {
+            camera.position.x = 0;
+        }
     }
 
     //moves camera to the left
@@ -118,10 +123,15 @@ class playerCharacter extends Sprite {
 
         if (playerCenterX < cameraLeftBoundary) {
             const distance = cameraLeftBoundary - playerCenterX;
-            camera.position.x -= distance;
+            camera.position.x += distance;
         } else if (playerCenterX > cameraRightBoundary) {
             const distance = playerCenterX - cameraRightBoundary;
-            camera.position.x += distance;
+            camera.position.x -= distance;
+        }
+
+        // Check if the camera box reaches the right side of the canvas
+        if (camera.position.x + camera.width > canvas.width) {
+            camera.position.x = canvas.width - camera.width;
         }
     }
 
@@ -246,10 +256,7 @@ class playerCharacter extends Sprite {
 
     deathAction() {
         // Get the modal element
-        const modal = document.getElementById("deathModal");
-
-        // Get the close button inside the modal
-        const closeButton = modal.querySelector(".close");
+        const modal = document.getElementById('deathModal');
 
         const audioElement = document.getElementById('deathAudio');
         audioElement.volume = 0.2;
@@ -257,52 +264,39 @@ class playerCharacter extends Sprite {
 
 
         // Display the modal
-        modal.style.display = "block";
+        modal.style.display = 'block';
 
-        // Reload the page after clicking the close button
-        closeButton.addEventListener("click", () => {
-            location.reload();
-        });
+        // Reset player position
+        this.resetPosition();
 
-        // Reload the page after clicking outside the modal
-        window.addEventListener("click", (event) => {
-            if (event.target === modal) {
+        window.addEventListener('keydown', (event) => {
+            if (event.code === 'Enter') {
+                // Reload the page
                 location.reload();
             }
         });
-
-        // Reset player position (optional)
-        this.resetPosition();
     }
 
     winAction() {
         // Get the modal element
-        const modal = document.getElementById("winModal");
-
-        // Get the close button inside the modal
-        const closeButton = modal.querySelector(".close");
+        const modal = document.getElementById('winModal');
 
         const audioElement = document.getElementById('winAudio');
         audioElement.volume = 0.2;
         audioElement.play();
 
         // Display the modal
-        modal.style.display = "block";
+        modal.style.display = 'block';
 
-        // Reload the page after clicking the close button
-        closeButton.addEventListener("click", () => {
-            location.reload();
-        });
+        // Reset player position
+        this.resetPosition();
 
-        // Reload the page after clicking outside the modal
-        window.addEventListener("click", (event) => {
-            if (event.target === modal) {
+        window.addEventListener('keydown', (event) => {
+            if (event.code === 'Enter') {
+                // Reload the page
                 location.reload();
             }
         });
-
-        // Reset player position (optional)
-        this.resetPosition();
     }
 
     applyGravity() {

@@ -5,10 +5,13 @@ function showTitleScreen() {
 
 showTitleScreen();
 
-// Hide title screen and start the game when clicked
-window.addEventListener("click", () => {
-    const modal = document.getElementById("titleModal");
-    modal.style.display = "none";
+
+// Hide title screen and start the game
+window.addEventListener('keydown', (event) => {
+    if (event.code === 'Enter') {
+        const modal = document.getElementById('titleModal');
+        modal.style.display = 'none';
+    }
 });
 
 // creates a new canvas and determines the API version
@@ -36,83 +39,127 @@ const canvasHeight = canvas.height;
 const cameraWidth = canvasWidth;
 const cameraHeight = canvasHeight;
 
-// stores all the collision arrays
-const platformCollisionBlocks = [];
-// Parent array
-const platformCollisions2D = [];
-// loops through array for all platforms
-for (let i = 0; i < platformCollisions.length; i += 90) {
-    // pushes in new sub-array
-    platformCollisions2D.push(platformCollisions.slice(i, i + 90));
-}
-// iterates over each row and column of the platform collisions
-platformCollisions2D.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 3602) {
-            // pushes in a new collision block
-            platformCollisionBlocks.push(
-                new CollisionBlock({
-                    position: {
-                        x: x * 64,
-                        y: y * 32,
-                    },
-                })
-            );
-        }
-    });
-});
+// // stores all the collision arrays
+// const platformCollisionBlocks = [];
+// // Parent array
+// const platformCollisions2D = [];
+// // loops through array for all platforms
+// for (let i = 0; i < platformCollisions.length; i += 90) {
+//     // pushes in new sub-array
+//     platformCollisions2D.push(platformCollisions.slice(i, i + 90));
+// }
+// // iterates over each row and column of the platform collisions
+// platformCollisions2D.forEach((row, y) => {
+//     row.forEach((symbol, x) => {
+//         if (symbol === 3602) {
+//             // pushes in a new collision block
+//             platformCollisionBlocks.push(
+//                 new CollisionBlock({
+//                     position: {
+//                         x: x * 64,
+//                         y: y * 32,
+//                     },
+//                 })
+//             );
+//         }
+//     });
+// });
 
-// stores all the death collision blocks
-const deathBlocks = [];
-// parent array
-const deathBlocks2D = [];
-// loops through the array for deathBlocks
-for (let i = 0; i < deathCollisions.length; i += 90) {
-    // pushes in a new sub-array
-    deathBlocks2D.push(deathCollisions.slice(i, i + 90));
-}
-// iterates over each row and column of the death collisions
-deathBlocks2D.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 3601) {
-            // pushes in a new death collision block
-            deathBlocks.push(
-                new DeathBlock({
-                    position: {
-                        x: x * 64,
-                        y: y * 32,
-                    },
-                })
-            );
-        }
-    });
-});
+// // stores all the death collision blocks
+// const deathBlocks = [];
+// // parent array
+// const deathBlocks2D = [];
+// // loops through the array for deathBlocks
+// for (let i = 0; i < deathCollisions.length; i += 90) {
+//     // pushes in a new sub-array
+//     deathBlocks2D.push(deathCollisions.slice(i, i + 90));
+// }
+// // iterates over each row and column of the death collisions
+// deathBlocks2D.forEach((row, y) => {
+//     row.forEach((symbol, x) => {
+//         if (symbol === 3601) {
+//             // pushes in a new death collision block
+//             deathBlocks.push(
+//                 new DeathBlock({
+//                     position: {
+//                         x: x * 64,
+//                         y: y * 32,
+//                     },
+//                 })
+//             );
+//         }
+//     });
+// });
 
-// stores all the win collision blocks
-const winBlocks = [];
-// parent array
-const winBlocks2D = [];
-// loops through the array for all platforms
-for (let i = 0; i < winCollisions.length; i += 90) {
-    // pushes in a new sub-array
-    winBlocks2D.push(winCollisions.slice(i, i + 90));
-}
-// iterates over each row and column of the win collisions
-winBlocks2D.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 3603) {
-            // pushes in a new win collision block
-            winBlocks.push(
-                new WinBlock({
-                    position: {
-                        x: x * 64,
-                        y: y * 32,
-                    },
-                })
-            );
-        }
+// // stores all the win collision blocks
+// const winBlocks = [];
+// // parent array
+// const winBlocks2D = [];
+// // loops through the array for all platforms
+// for (let i = 0; i < winCollisions.length; i += 90) {
+//     // pushes in a new sub-array
+//     winBlocks2D.push(winCollisions.slice(i, i + 90));
+// }
+// // iterates over each row and column of the win collisions
+// winBlocks2D.forEach((row, y) => {
+//     row.forEach((symbol, x) => {
+//         if (symbol === 3603) {
+//             // pushes in a new win collision block
+//             winBlocks.push(
+//                 new WinBlock({
+//                     position: {
+//                         x: x * 64,
+//                         y: y * 32,
+//                     },
+//                 })
+//             );
+//         }
+//     });
+// });
+
+function createCollisionBlocks(collisions, blockType, blockSymbol) {
+    const collisionBlocks = [];
+    const collisionBlocks2D = [];
+
+    for (let i = 0; i < collisions.length; i += 90) {
+        collisionBlocks2D.push(collisions.slice(i, i + 90));
+    }
+
+    collisionBlocks2D.forEach((row, y) => {
+        row.forEach((symbol, x) => {
+            if (symbol === blockSymbol) {
+                collisionBlocks.push(
+                    new blockType({
+                        position: {
+                            x: x * 64,
+                            y: y * 32,
+                        },
+                    })
+                );
+            }
+        });
     });
-});
+
+    return collisionBlocks;
+}
+
+// Usage:
+const platformCollisionBlocks = createCollisionBlocks(
+    platformCollisions,
+    CollisionBlock,
+    3602
+);
+
+const deathBlocks = createCollisionBlocks(
+    deathCollisions, 
+    DeathBlock, 
+    3601);
+
+const winBlocks = createCollisionBlocks(winCollisions, 
+    WinBlock, 
+    3603
+    );
+
 
 // variable to determine strength of gravity
 const gravity = 0.2;
@@ -254,7 +301,8 @@ function animatePlayer() {
         // moves the camera position to the right
         camera.position.x += player.velocity.x;
         isMoving = true;
-    } else if (codes.arrowLeft.pressed) {
+    }
+    else if (codes.arrowLeft.pressed) {
         player.switchSprite('Run');
         // player run speed
         player.velocity.x = -3;
@@ -269,14 +317,16 @@ function animatePlayer() {
     if (codes.arrowRight.pressed || codes.arrowLeft.pressed) {
         // Player is moving
         isMoving = true;
-    } else {
+    }
+    else {
         // Player is not moving
         isMoving = false;
     }
     // Check if the player is moving
     if (isMoving) {
         player.switchSprite('Run');
-    } else {
+    }
+    else {
         player.switchSprite('Idle');
     }
 
@@ -300,9 +350,11 @@ function animatePlayer() {
     // Handles the player jumping animation and camera movement
     if (player.velocity.y < 0) {
         player.switchSprite('Jump');
-    } else if (player.velocity.y > 0) {
+    }
+    else if (player.velocity.y > 0) {
         player.switchSprite('Fall');
-    } else if (player.velocity.y === 0 && isJumping) {
+    }
+    else if (player.velocity.y === 0 && isJumping) {
         player.switchSprite('Idle');
     }
 }
