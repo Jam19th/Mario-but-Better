@@ -69,7 +69,7 @@ class playerCharacter extends Sprite {
     switchSprite(key) {
         if (this.image === this.animations[key].image || !this.loaded) return;
 
-        this.currentFrame = 0
+        // this.currentFrame = 0
         this.image = this.animations[key].image;
     }
 
@@ -254,41 +254,42 @@ class playerCharacter extends Sprite {
         }
     }
 
-    deathAction() {
-        const modal = document.getElementById('deathModal');
-        const audioElement = document.getElementById('deathAudio');
+    showModalAndPlayAudio(modalId, audioId) {
+        const modal = document.getElementById(modalId);
+        const audioElement = document.getElementById(audioId);
         audioElement.volume = 0.2;
         audioElement.play();
         // Display the modal
         modal.style.display = 'block';
-        // Reset player position
-        this.resetPosition();
+
+        // Pause the mainGameAudio if it's playing
+        if (!audioElement.paused) {
+            mainGameAudio.pause();
+        }
+
+        // Pause the titleAudio if it's playing
+        if (!audioElement.paused) {
+            titleAudio.pause();
+        }
 
         window.addEventListener('keydown', (event) => {
             if (event.code === 'Enter') {
+                // Reset player position
+                this.resetPosition();
                 // Reload the page
                 location.reload();
             }
         });
+    }
+
+    deathAction() {
+        this.showModalAndPlayAudio('deathModal', 'deathAudio');
     }
 
     winAction() {
-        const modal = document.getElementById('winModal');
-        const audioElement = document.getElementById('winAudio');
-        audioElement.volume = 0.2;
-        audioElement.play();
-        // Display the modal
-        modal.style.display = 'block';
-        // Reset player position
-        this.resetPosition();
-
-        window.addEventListener('keydown', (event) => {
-            if (event.code === 'Enter') {
-                // Reload the page
-                location.reload();
-            }
-        });
+        this.showModalAndPlayAudio('winModal', 'winAudio');
     }
+
 
     applyGravity() {
         //Determines if the player position is hitting the bottom of canvas

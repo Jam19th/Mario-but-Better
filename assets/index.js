@@ -1,6 +1,19 @@
+let isTitleAudioPlaying = false;
+const mainGameAudio = document.getElementById('mainGameAudio');
+
 function showTitleScreen() {
     const modal = document.getElementById("titleModal");
+    const audioElement = document.getElementById('titleAudio');
+    audioElement.volume = 0.2;
+    // audioElement.play();
     modal.style.display = "block";
+    isTitleAudioPlaying = true;
+
+    // Pause the mainGameAudio if it's playing
+    if (!mainGameAudio.paused) {
+        mainGameAudio.pause();
+    }
+
 }
 showTitleScreen();
 
@@ -8,12 +21,29 @@ showTitleScreen();
 function startGame() {
     const modal = document.getElementById("titleModal");
     modal.style.display = "none";
+    isTitleAudioPlaying = false;
+
+    // Pause the titleAudio if it's playing
+    const titleAudio = document.getElementById('titleAudio');
+    if (!titleAudio.paused) {
+        titleAudio.pause();
+    }
+
+    // Start playing the mainGameAudio
+    mainGameAudio.volume = 0.2;
+    mainGameAudio.play();
 }
 // Hide title screen and start the game
 window.addEventListener('keydown', (event) => {
     if (event.code === 'Enter') {
         startGame();
     }
+});
+
+// When the mainGameAudio finishes playing, restart it
+mainGameAudio.addEventListener('ended', function () {
+    mainGameAudio.currentTime = 0;
+    mainGameAudio.play();
 });
 
 // creates a new canvas and determines the API version
@@ -45,9 +75,9 @@ function createCollisionBlocks(collisionArray, blockClass, blockSymbol) {
     // parent array
     const collisionBlocks2D = [];
     // loops through the array for all blocks
-    for (let i = 0; i < collisionArray.length; i += 90) {
+    for (let i = 0; i < collisionArray.length; i += 45) {
         // pushes in a new sub-array
-        collisionBlocks2D.push(collisionArray.slice(i, i + 90));
+        collisionBlocks2D.push(collisionArray.slice(i, i + 45));
     }
     // iterates over each row and column of the collisionArray
     collisionBlocks2D.forEach((row, y) => {
@@ -101,7 +131,7 @@ const player = new playerCharacter({
     // starting position of the player
     position: {
         x: 40,
-        y: 10,
+        y: 0,
     },
     collisionBlocks: platformCollisionBlocks,
     deathCollisionBlocks: deathBlocks,
@@ -208,40 +238,27 @@ function animatePlayer() {
 
     // Sets and updates player's position on the x coordinates if key is pressed.
     // Changes sprite animation
-    if (codes.arrowRight.pressed) {
-        player.switchSprite('Run');
-        // player run speed
-        player.velocity.x = 3;
-        // moves the camera position to the right
-        camera.position.x += player.velocity.x;
-        isMoving = true;
-    }
-    else if (codes.arrowLeft.pressed) {
-        player.switchSprite('Run');
-        // player run speed
-        player.velocity.x = -3;
-        // moves the camera position to the left
+    if (codes.arrowRight.pressed || codes.arrowLeft.pressed) {
+        player.velocity.x = codes.arrowRight.pressed ? 3 : -3;
         camera.position.x += player.velocity.x;
         isMoving = true;
     } else {
         player.velocity.x = 0;
         isMoving = false;
     }
-    // Update previousMovingState when the player is moving
-    if (codes.arrowRight.pressed || codes.arrowLeft.pressed) {
-        // Player is moving
-        isMoving = true;
+
+    // Check if the player is jumping
+    if (player.velocity.y < 0) {
+        player.switchSprite('Jump');
+    } else if (player.velocity.y > 0) {
+        player.switchSprite('Fall');
+    } else if (player.velocity.y === 0 && isJumping) {
+        player.switchSprite('Idle');
     }
-    else {
-        // Player is not moving
-        isMoving = false;
-    }
-    // Check if the player is moving
+
+    // Check if the player is moving horizontally
     if (isMoving) {
         player.switchSprite('Run');
-    }
-    else {
-        player.switchSprite('Idle');
     }
 
     if (codes.arrowDown.pressed) {
@@ -250,10 +267,11 @@ function animatePlayer() {
 
     // When the player is on the ground, allow jumping again
     if (player.velocity.y === 0) {
-        player.switchSprite('Idle');
         canJump = true;
         isJumping = false;
+        player.switchSprite('Idle');
     }
+
     // Jump action
     if (codes.space.pressed && canJump) {
         player.velocity.y = -10;
@@ -261,26 +279,9 @@ function animatePlayer() {
         isJumping = true;
     }
 
-    // Handles the player jumping animation and camera movement
-    if (player.velocity.y < 0) {
-        player.switchSprite('Jump');
-    }
-    else if (player.velocity.y > 0) {
-        player.switchSprite('Fall');
-    }
-    else if (player.velocity.y === 0 && isJumping) {
-        player.switchSprite('Idle');
-    }
 }
 // Calls the animatePlayer function to start the animation loop
 animatePlayer();
-
-// adds audio file to the game loop
-window.onload = function () {
-    const audioElement = document.getElementById('mainGameAudio');
-    audioElement.volume = 0.2;
-    // audioElement.play();
-};
 
 // handle player movement key events
 function handleMovementKey(event, isKeyDown) {
