@@ -143,22 +143,22 @@ class playerCharacter extends Sprite {
         this.updateCameraBox();
 
         //draws rectangles on the camera box
-        context.fillStyle = 'rgba(0, 0, 255, .1)'
-        context.fillRect(
-            this.camerabox.position.x,
-            this.camerabox.position.y,
-            this.camerabox.width,
-            this.camerabox.height)
+        // context.fillStyle = 'rgba(0, 0, 255, .1)'
+        // context.fillRect(
+        //     this.camerabox.position.x,
+        //     this.camerabox.position.y,
+        //     this.camerabox.width,
+        //     this.camerabox.height)
         // draws rectangles on the player sprite 
-        context.fillStyle = 'rgba(0, 255, 0, 0.5)'
-        context.fillRect(this.position.x, this.position.y, this.width, this.height)
+        // context.fillStyle = 'rgba(0, 255, 0, 0.5)'
+        // context.fillRect(this.position.x, this.position.y, this.width, this.height)
         //draws rectangles on the player hit box
-        context.fillStyle = 'rgba(255, 0, 0, 0.5)'
-        context.fillRect(
-            this.hitbox.position.x,
-            this.hitbox.position.y,
-            this.hitbox.width,
-            this.hitbox.height)
+        // context.fillStyle = 'rgba(255, 0, 0, 0.5)'
+        // context.fillRect(
+        //     this.hitbox.position.x,
+        //     this.hitbox.position.y,
+        //     this.hitbox.width,
+        //     this.hitbox.height)
 
         //passes in draw from the sprite class
         this.draw();
@@ -257,7 +257,7 @@ class playerCharacter extends Sprite {
     showModalAndPlayAudio(modalId, audioId) {
         const modal = document.getElementById(modalId);
         const audioElement = document.getElementById(audioId);
-        audioElement.volume = 0.2;
+        audioElement.volume = 0.5;
         audioElement.play();
         // Display the modal
         modal.style.display = 'block';

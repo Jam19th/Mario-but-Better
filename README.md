@@ -5,7 +5,7 @@ Game instructions:
 
 2. Controls are the left and right arrow keys to move and the space bar to jump.
 
-3. The goal of the game is to avoid the green blocks and make it to the stones at the end of the screen.
+3. The goal of the game is to avoid the green blocks and make it to the stones at the end of the screen, but beware the blue block are nor necessarily your friends.
 
 4. If you collide with a green block or win the game press Enter to restart the game.
 
@@ -45,4 +45,6 @@ Rest of the audio in the game.
 
 https://static.wikia.nocookie.net/game-over-dex/images/d/d4/Mega_Man_2_%28U%29-0.png/revision/latest?cb=20130403200618
 https://4.bp.blogspot.com/-jxIYIpVbRr0/VjKteJuRDXI/AAAAAAAAUT0/pfvQh125-y4/s1600/CShZwmTUAAAG46W.jpg
-Death screen and win screen files.
+https://gamecola.net/2010/01/the-ten-reasons-mega-man-2/
+Opening screen, death screen and win screen files.
+

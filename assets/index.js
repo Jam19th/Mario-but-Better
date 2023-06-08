@@ -4,8 +4,8 @@ const mainGameAudio = document.getElementById('mainGameAudio');
 function showTitleScreen() {
     const modal = document.getElementById("titleModal");
     const audioElement = document.getElementById('titleAudio');
-    audioElement.volume = 0.2;
-    // audioElement.play();
+    audioElement.volume = 0.5;
+    audioElement.play();
     modal.style.display = "block";
     isTitleAudioPlaying = true;
 
@@ -30,7 +30,7 @@ function startGame() {
     }
 
     // Start playing the mainGameAudio
-    mainGameAudio.volume = 0.2;
+    mainGameAudio.volume = 0.3;
     mainGameAudio.play();
 }
 // Hide title screen and start the game
