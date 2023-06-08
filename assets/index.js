@@ -2,15 +2,17 @@ function showTitleScreen() {
     const modal = document.getElementById("titleModal");
     modal.style.display = "block";
 }
-
 showTitleScreen();
 
-
+//hide the title screen and start the game
+function startGame() {
+    const modal = document.getElementById("titleModal");
+    modal.style.display = "none";
+}
 // Hide title screen and start the game
 window.addEventListener('keydown', (event) => {
     if (event.code === 'Enter') {
-        const modal = document.getElementById('titleModal');
-        modal.style.display = 'none';
+        startGame();
     }
 });
 
@@ -18,14 +20,11 @@ window.addEventListener('keydown', (event) => {
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
-
 function resizeCanvas() {
     // Set the canvas dimensions to match the window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
 }
-
 resizeCanvas();
 
 //an event listener to the window's resize event
@@ -39,97 +38,24 @@ const canvasHeight = canvas.height;
 const cameraWidth = canvasWidth;
 const cameraHeight = canvasHeight;
 
-// // stores all the collision arrays
-// const platformCollisionBlocks = [];
-// // Parent array
-// const platformCollisions2D = [];
-// // loops through array for all platforms
-// for (let i = 0; i < platformCollisions.length; i += 90) {
-//     // pushes in new sub-array
-//     platformCollisions2D.push(platformCollisions.slice(i, i + 90));
-// }
-// // iterates over each row and column of the platform collisions
-// platformCollisions2D.forEach((row, y) => {
-//     row.forEach((symbol, x) => {
-//         if (symbol === 3602) {
-//             // pushes in a new collision block
-//             platformCollisionBlocks.push(
-//                 new CollisionBlock({
-//                     position: {
-//                         x: x * 64,
-//                         y: y * 32,
-//                     },
-//                 })
-//             );
-//         }
-//     });
-// });
-
-// // stores all the death collision blocks
-// const deathBlocks = [];
-// // parent array
-// const deathBlocks2D = [];
-// // loops through the array for deathBlocks
-// for (let i = 0; i < deathCollisions.length; i += 90) {
-//     // pushes in a new sub-array
-//     deathBlocks2D.push(deathCollisions.slice(i, i + 90));
-// }
-// // iterates over each row and column of the death collisions
-// deathBlocks2D.forEach((row, y) => {
-//     row.forEach((symbol, x) => {
-//         if (symbol === 3601) {
-//             // pushes in a new death collision block
-//             deathBlocks.push(
-//                 new DeathBlock({
-//                     position: {
-//                         x: x * 64,
-//                         y: y * 32,
-//                     },
-//                 })
-//             );
-//         }
-//     });
-// });
-
-// // stores all the win collision blocks
-// const winBlocks = [];
-// // parent array
-// const winBlocks2D = [];
-// // loops through the array for all platforms
-// for (let i = 0; i < winCollisions.length; i += 90) {
-//     // pushes in a new sub-array
-//     winBlocks2D.push(winCollisions.slice(i, i + 90));
-// }
-// // iterates over each row and column of the win collisions
-// winBlocks2D.forEach((row, y) => {
-//     row.forEach((symbol, x) => {
-//         if (symbol === 3603) {
-//             // pushes in a new win collision block
-//             winBlocks.push(
-//                 new WinBlock({
-//                     position: {
-//                         x: x * 64,
-//                         y: y * 32,
-//                     },
-//                 })
-//             );
-//         }
-//     });
-// });
-
-function createCollisionBlocks(collisions, blockType, blockSymbol) {
+// Creates the collision blocks
+function createCollisionBlocks(collisionArray, blockClass, blockSymbol) {
+    // stores all the collision blocks
     const collisionBlocks = [];
+    // parent array
     const collisionBlocks2D = [];
-
-    for (let i = 0; i < collisions.length; i += 90) {
-        collisionBlocks2D.push(collisions.slice(i, i + 90));
+    // loops through the array for all blocks
+    for (let i = 0; i < collisionArray.length; i += 90) {
+        // pushes in a new sub-array
+        collisionBlocks2D.push(collisionArray.slice(i, i + 90));
     }
-
+    // iterates over each row and column of the collisionArray
     collisionBlocks2D.forEach((row, y) => {
         row.forEach((symbol, x) => {
             if (symbol === blockSymbol) {
+                // pushes in a new collision block
                 collisionBlocks.push(
-                    new blockType({
+                    new blockClass({
                         position: {
                             x: x * 64,
                             y: y * 32,
@@ -139,27 +65,23 @@ function createCollisionBlocks(collisions, blockType, blockSymbol) {
             }
         });
     });
-
     return collisionBlocks;
 }
-
-// Usage:
 const platformCollisionBlocks = createCollisionBlocks(
     platformCollisions,
-    CollisionBlock,
+    PlatformBlock,
     3602
 );
-
 const deathBlocks = createCollisionBlocks(
-    deathCollisions, 
-    DeathBlock, 
-    3601);
-
-const winBlocks = createCollisionBlocks(winCollisions, 
-    WinBlock, 
+    deathCollisions,
+    DeathBlock,
+    3601
+);
+const winBlocks = createCollisionBlocks(
+    winCollisions,
+    WinBlock,
     3603
-    );
-
+);
 
 // variable to determine strength of gravity
 const gravity = 0.2;
@@ -168,10 +90,10 @@ const gravity = 0.2;
 const background = new Sprite({
     position: {
         x: -2500,
-        y: -100,
+        y: 0,
     },
     imageSrc: './assets/images/game_background_1/game_background_1_ext.png',
-    scale: 1.5,
+    scale: 1.25,
 });
 
 // creates a player character object
@@ -250,40 +172,32 @@ function animatePlayer() {
 
     // Fills shapes with a color
     context.fillStyle = '#FFFFFF';
-
     // Creates a rectangle and determines the size of it (starting x position, starting y position, width, height)
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     // save and restore prevent the code from refreshing forever
-    context.save();
-    // scales the image (x, y)
-    // context.scale(1, 1.18);
-    // context.scale(2, 2);
-    context.translate(camera.position.x, camera.position.y);
-    // Puts the background images onto canvas
-    background.update();
-    context.restore();
-
     // animates collision blocks
     context.save();
+    // scales the image (x, y)
+    // context.scale(.7, .7);
+    // context.translate(0, 0);
+    // context.translate(camera.position.x, camera.position.y);
+    background.update();
+
+    function updateCollisionBlocks(blocks) {
+        blocks.forEach((block) => {
+            block.width = 64;
+            block.height = 32;
+            block.update();
+        });
+    }
     // Updates each platform collision block
-    platformCollisionBlocks.forEach((collisionBlock) => {
-        collisionBlock.width = 64;
-        collisionBlock.height = 32;
-        collisionBlock.update();
-    });
+    updateCollisionBlocks(platformCollisionBlocks);
     // Updates each death collision block
-    deathBlocks.forEach((deathBlock) => {
-        deathBlock.width = 64;
-        deathBlock.height = 32;
-        deathBlock.update();
-    });
+    updateCollisionBlocks(deathBlocks);
     // Updates each win collision block
-    winBlocks.forEach((winBlock) => {
-        winBlock.width = 64;
-        winBlock.height = 32;
-        winBlock.update();
-    });
+    updateCollisionBlocks(winBlocks);
+
     context.restore();
 
     // Checks for horizontal collision with the canvas boundaries
@@ -368,54 +282,50 @@ window.onload = function () {
     // audioElement.play();
 };
 
-window.addEventListener('keydown', (event) => {
-    // Prevent default behavior of the space key
-    if (event.code === 'Space', 'ArrowRight', 'ArrowLeft', 'ArrowDown') {
-        event.preventDefault();
-    }
+// handle player movement key events
+function handleMovementKey(event, isKeyDown) {
     switch (event.code) {
         case 'ArrowRight':
-            codes.arrowRight.pressed = true;
+            codes.arrowRight.pressed = isKeyDown;
+            player.velocity.x = isKeyDown ? 3 : 0;
             break;
         case 'ArrowLeft':
-            codes.arrowLeft.pressed = true;
+            codes.arrowLeft.pressed = isKeyDown;
+            player.velocity.x = isKeyDown ? -3 : 0;
             break;
         case 'ArrowDown':
-            codes.arrowDown.pressed = true;
+            codes.arrowDown.pressed = isKeyDown;
             break;
         case 'Space':
-            if (canJump) {
-                // change the value to change the height jump
+            if (isKeyDown && canJump) {
                 player.velocity.y = -10;
-                // Prevent multiple jumps
                 canJump = false;
                 isJumping = true;
             }
             break;
     }
+}
+
+window.addEventListener('keydown', (event) => {
+    if (
+        event.code === 'Space' ||
+        event.code === 'ArrowRight' ||
+        event.code === 'ArrowLeft' ||
+        event.code === 'ArrowDown'
+    ) {
+        event.preventDefault();
+    }
+    handleMovementKey(event, true);
 });
 
 window.addEventListener('keyup', (event) => {
-    // Prevent default behavior of the space key
-    if (event.code === 'Space', 'ArrowRight', 'ArrowLeft', 'ArrowDown') {
+    if (
+        event.code === 'Space' ||
+        event.code === 'ArrowRight' ||
+        event.code === 'ArrowLeft' ||
+        event.code === 'ArrowDown'
+    ) {
         event.preventDefault();
     }
-    switch (event.code) {
-        case 'ArrowRight':
-            codes.arrowRight.pressed = false;
-            player.velocity.x = 0;
-            break;
-        case 'ArrowLeft':
-            codes.arrowLeft.pressed = false;
-            player.velocity.x = 0;
-            break;
-        case 'ArrowDown':
-            codes.arrowDown.pressed = false;
-            break;
-        case 'Space':
-            if (player.velocity.y === 0) {
-                isJumping = false;
-            }
-            break;
-    }
+    handleMovementKey(event, false);
 });

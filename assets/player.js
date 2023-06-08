@@ -255,17 +255,12 @@ class playerCharacter extends Sprite {
     }
 
     deathAction() {
-        // Get the modal element
         const modal = document.getElementById('deathModal');
-
         const audioElement = document.getElementById('deathAudio');
         audioElement.volume = 0.2;
         audioElement.play();
-
-
         // Display the modal
         modal.style.display = 'block';
-
         // Reset player position
         this.resetPosition();
 
@@ -278,16 +273,12 @@ class playerCharacter extends Sprite {
     }
 
     winAction() {
-        // Get the modal element
         const modal = document.getElementById('winModal');
-
         const audioElement = document.getElementById('winAudio');
         audioElement.volume = 0.2;
         audioElement.play();
-
         // Display the modal
         modal.style.display = 'block';
-
         // Reset player position
         this.resetPosition();
 
@@ -316,10 +307,8 @@ class playerCharacter extends Sprite {
                 if (this.velocity.y > 0) {
                     // Check if the player is moving downward (jumping)
                     this.velocity.y = 0;
-
                     // offsets the image by the hit box rather then the image size
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
-
                     this.position.y = collisionBlock.position.y - offset - 0.01;
                     break;
                 }
